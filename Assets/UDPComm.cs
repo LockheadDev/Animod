@@ -16,7 +16,7 @@ public class UDPComm : MonoBehaviour
     [SerializeField]
     private String defString = "r";
 
-    public int animationTag = -1;
+    public float animationTag = -1;
 
     private UdpClient UDPclient = new UdpClient();
     private IPEndPoint ep;
@@ -60,7 +60,7 @@ public class UDPComm : MonoBehaviour
             }
             if (recievedString != null)
             {
-                if (int.TryParse(recievedString, out animationTag))
+                if (float.TryParse(recievedString, out animationTag))
                 {
                     print("Recieved animation tag: " + animationTag.ToString());
                     recievedString = null;

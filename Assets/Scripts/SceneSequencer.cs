@@ -5,12 +5,14 @@ using UnityEngine;
 
 //TODO Transform to Singleton
 
-public class SceneSequencer : MonoBehaviour
-{
-    [SerializeField]
-    private UDPComm udpcomm;
+public class SceneSequencer : MonoBehaviour, ISequencer
 
-    private int temp= -1;
+{
+    //Interface
+    [SerializeField]
+    public UDPComm udpcomm { get; set; }
+
+    private float temp= 0;
 
     private enum enVPosition { Center, Up, Down };
     private enum enHPosition { Center, Right, Left};
@@ -39,10 +41,11 @@ public class SceneSequencer : MonoBehaviour
 
     //Create Singleton
     public static SceneSequencer Instance { get; private set; }
+    
+
     private void Awake()
     {
         // If there is an instance, and it's not me, delete myself.
-
         if (Instance != null && Instance != this)
         {
             Destroy(this);
@@ -52,11 +55,24 @@ public class SceneSequencer : MonoBehaviour
             Instance = this;
         }
     }
-    
+    private void Start()
+    {
+        if (!udpcomm) udpcomm = GameObject.Find("UDPClient").GetComponent<UDPComm>();
+        effPool = FindObjectOfType<EffectsPool>();
+        for (int i = 0; i < effPool.Quantity; i++)
+        {
+            SpawnInPosition(enTPostition.CenterCenter);
+        }
+    }
 
     private void Update()
     {
+        //Updaters
+        UpdateAnimation();
+
+        //Controls input
         DetectKeys();
+
         tPostition = GetTotalPosition(hPosition, vPosition);
         print(tPostition);
         if(Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.RightControl))
@@ -65,28 +81,26 @@ public class SceneSequencer : MonoBehaviour
             SpawnInPosition(tPostition);
         }
 
+        
+
+    }
+
+    public void UpdateAnimation()
+    {
         if (temp != udpcomm.animationTag)
         {
             temp = udpcomm.animationTag;
             EnableAnimation(temp);
         }
-
     }
-    public void EnableAnimation(int posID) //TODO with gizmos number call the animations
+    public void EnableAnimation(float posID) //TODO with gizmos number call the animations
     {
         foreach (SpawnConfig item in spawnConfigs)
         {
             if (item.id == posID) effPool.ActivateEffect(item.effectData, item.transform.position);
         }
     }
-    private void Start()
-    {
-        effPool = FindObjectOfType<EffectsPool>();
-        for (int i = 0; i < effPool.Quantity; i++)
-        {
-            SpawnInPosition(enTPostition.CenterCenter);
-        }
-    }
+    
 
     private void SpawnInPosition(enTPostition tPostition)
     {
