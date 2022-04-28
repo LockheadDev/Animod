@@ -13,6 +13,9 @@ public class UDPComm : MonoBehaviour
     [SerializeField]
     private int port = 42069;
 
+    [SerializeField]
+    private String defString = "r";
+
     public int animationTag = -1;
 
     private UdpClient UDPclient = new UdpClient();
@@ -38,34 +41,39 @@ public class UDPComm : MonoBehaviour
     }
     private void RequestServer()
     {
+        bool onWait = false;
         while (true)
         {
             print("Sending request data...");
-            try
-            {//Send Request Data
-                sendRequestData(UDPclient, "r");
+            //Send Request Data
+                sendRequestData(UDPclient, defString);
 
-                //Receive Response Data
+            //Receive Response Data
+            try
+            {
                 recievedString = Encoding.ASCII.GetString(UDPclient.Receive(ref ep));
-                if (recievedString != null)
-                {
-                    print(ep.ToString() + "- Mensaje:" + recievedString);
-                    if (int.TryParse(recievedString, out animationTag))
-                    {
-                        print("Recieved animation tag: " + animationTag.ToString());
-                        SceneSequencer.Instance.EnableAnimation(animationTag);
-                        //TODO Call Scene Sequencer.EnableAnimation
-                    }
-                }
-                else
-                {
-                    print("No string recieved");
-                }
+                print("No string recieved");
             }
             catch
             {
-                print("Fatal UDP connection failure");
+                
             }
+            if (recievedString != null)
+            {
+                if (int.TryParse(recievedString, out animationTag))
+                {
+                    print("Recieved animation tag: " + animationTag.ToString());
+                    recievedString = null;
+                }
+                else print(recievedString);
+            }
+            else
+            {
+                print("No string recieved");
+            }
+
+
+
         }
     }
     private void StartConnection()

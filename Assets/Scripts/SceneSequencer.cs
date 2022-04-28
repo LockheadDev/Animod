@@ -7,7 +7,11 @@ using UnityEngine;
 
 public class SceneSequencer : MonoBehaviour
 {
-    
+    [SerializeField]
+    private UDPComm udpcomm;
+
+    private int temp= -1;
+
     private enum enVPosition { Center, Up, Down };
     private enum enHPosition { Center, Right, Left};
     public enum enTPostition { CenterCenter, UpCenter, DownCenter, CenterRight, CenterLeft, UpRight, UpLeft, DownRight, DownLeft};
@@ -27,7 +31,6 @@ public class SceneSequencer : MonoBehaviour
         public Transform transform;
         public EffectData effectData;
         public enTPostition enPosition;
-        
     }
 
 
@@ -60,6 +63,12 @@ public class SceneSequencer : MonoBehaviour
         {
             print("Creating effect...");
             SpawnInPosition(tPostition);
+        }
+
+        if (temp != udpcomm.animationTag)
+        {
+            temp = udpcomm.animationTag;
+            EnableAnimation(temp);
         }
 
     }
