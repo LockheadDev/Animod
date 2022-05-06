@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using UnityEngine;
 
-public class UDPComm : MonoBehaviour
+public class UDPAnalogComm : MonoBehaviour
 {
     [SerializeField]
     private bool enConnection = false;
@@ -15,8 +15,13 @@ public class UDPComm : MonoBehaviour
 
     [SerializeField]
     private String defString = "r";
+    private String yRequestString= "y";
+    private String xRequestString = "x";
 
-    public float animationTag = -1;
+    public float temp_input ;
+
+    public float yValue = 0;
+    public float xValue = 0;
 
     private UdpClient UDPclient = new UdpClient();
     private IPEndPoint ep;
@@ -27,7 +32,8 @@ public class UDPComm : MonoBehaviour
 
     void Start()
     {
-        ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), port);    //Initialize port
+        //ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), port);    //Initialize port LOOPBACK
+        ep = new IPEndPoint(IPAddress.Parse("192.168.0.100"), port); // KHERI ADDRESS
         if (enConnection) StartConnection();                        //Start connection
     }
 
@@ -36,8 +42,8 @@ public class UDPComm : MonoBehaviour
     {
         //KEY: T -> Finish connection
         if (Input.GetKeyDown(KeyCode.T)) StopConnection();
-        
-      
+
+
     }
     private void RequestServer()
     {
@@ -45,9 +51,11 @@ public class UDPComm : MonoBehaviour
         {
             print("Sending request data...");
             //Send Request Data
-                sendRequestData(UDPclient, defString);
+            //sendRequestData(UDPclient, defString);
 
-            //Receive Response Data
+            //REQUEST Y
+            sendRequestData(UDPclient, yRequestString);
+            //Receive Response Data Y
             try
             {
                 recievedString = Encoding.ASCII.GetString(UDPclient.Receive(ref ep));
@@ -55,24 +63,48 @@ public class UDPComm : MonoBehaviour
             }
             catch
             {
-                
+
             }
             if (recievedString != null)
             {
-                if (float.TryParse(recievedString, out animationTag))
+                if (float.TryParse(recievedString, out temp_input))
                 {
-                    print("Recieved animation tag: " + animationTag.ToString());
+                    print("Recieved YValue: " + temp_input.ToString());
+                    yValue = temp_input;
                     recievedString = null;
                 }
-                else print(recievedString);
+                else print(recievedString); //Recibimos "w" y la imprimimos
             }
             else
             {
                 print("No string recieved");
             }
+            //REQUEST X
+            sendRequestData(UDPclient, xRequestString);
+            //Receive Response Data X
+            try
+            {
+                recievedString = Encoding.ASCII.GetString(UDPclient.Receive(ref ep));
+                print("No string recieved");
+            }
+            catch
+            {
 
-
-
+            }
+            if (recievedString != null)
+            {
+                if (float.TryParse(recievedString, out temp_input))
+                {
+                    print("Recieved XValue: " + temp_input.ToString());
+                    xValue = temp_input;
+                    recievedString = null;
+                }
+                else print(recievedString); // Recibimos "w" y la imprimimos
+            }
+            else
+            {
+                print("No string recieved");
+            }
         }
     }
     private void StartConnection()

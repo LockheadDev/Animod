@@ -171,6 +171,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea42d4d2daec96f428992e7994a3fa6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  xMaxdegValue: 45
+  xMindegValue: -45
+  yMaxdegValue: 90
+  yMindegValue: -90
+  xMaxmapValue: 35
+  xMinmapValue: -35
+  yMaxmapValue: 35
+  yMinmapValue: -35
   sphere: {fileID: 280707836}
 --- !u!1 &1243707569
 GameObject:
@@ -198,13 +206,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1243707569}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de5baeb054f6cc94b8e8512460769f67, type: 3}
+  m_Script: {fileID: 11500000, guid: 6f55f5f67f085f749b95d6e66ff6285d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enConnection: 1
   port: 42069
-  defString: r
-  animationTag: -1
+  defString: x
+  temp_input: 0
+  yValue: 0
+  xValue: 0
 --- !u!4 &1243707571
 Transform:
   m_ObjectHideFlags: 0
