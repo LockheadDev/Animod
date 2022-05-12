@@ -4,24 +4,53 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using UnityEngine;
+using static Extension;
+using System.Collections.Generic;
 
 public class UDPAnalogComm : MonoBehaviour
 {
+    [System.Serializable]
+    public class BodyDataPacket
+    {
+        public String name;
+        public BodyPartEnum bodyPart;
+        public float rotX, rotY, accX, accY, accZ;
+
+        public void SetValueByEnum(DataReqEnum dataReq,float value)
+        {
+            switch (dataReq)
+            {
+                case DataReqEnum.rotX:
+                    this.rotX = value;
+                    break;
+                case DataReqEnum.rotY:
+                    this.rotY = value;
+                    break;
+                case DataReqEnum.accX:
+                    this.accX = value;
+                    break;
+                case DataReqEnum.accY:
+                    this.accY = value;
+                    break;
+                case DataReqEnum.accZ:
+                    this.accZ = value;
+                    break;
+            }
+        }
+    }
+
     [SerializeField]
     private bool enConnection = false;
 
     [SerializeField]
     private int port = 42069;
+    public float temp_input;
 
-    [SerializeField]
-    private String defString = "r";
-    private String yRequestString= "y";
-    private String xRequestString = "x";
-
-    public float temp_input ;
-
-    public float yValue = 0;
-    public float xValue = 0;
+    public List<BodyPartEnum> bodyPartSequence = new List<BodyPartEnum>();
+    public List<DataReqEnum> dataReqSequence = new List<DataReqEnum>();
+    public List<BodyDataPacket> bodyPackets = new List<BodyDataPacket>();
+    public float yValue = 0 ;
+    public float xValue = 0 ;
 
     private UdpClient UDPclient = new UdpClient();
     private IPEndPoint ep;
@@ -50,60 +79,14 @@ public class UDPAnalogComm : MonoBehaviour
         while (true)
         {
             print("Sending request data...");
-            //Send Request Data
-            //sendRequestData(UDPclient, defString);
 
-            //REQUEST Y
-            sendRequestData(UDPclient, yRequestString);
-            //Receive Response Data Y
-            try
+            //REQUEST and STORE data
+            foreach (BodyPartEnum bodyPart in bodyPartSequence)
             {
-                recievedString = Encoding.ASCII.GetString(UDPclient.Receive(ref ep));
-                print("No string recieved");
-            }
-            catch
-            {
-
-            }
-            if (recievedString != null)
-            {
-                if (float.TryParse(recievedString, out temp_input))
+                foreach (DataReqEnum dataReq in dataReqSequence)
                 {
-                    print("Recieved YValue: " + temp_input.ToString());
-                    yValue = temp_input;
-                    recievedString = null;
+                    SendRecieveData(bodyPart,dataReq);
                 }
-                else print(recievedString); //Recibimos "w" y la imprimimos
-            }
-            else
-            {
-                print("No string recieved");
-            }
-            //REQUEST X
-            sendRequestData(UDPclient, xRequestString);
-            //Receive Response Data X
-            try
-            {
-                recievedString = Encoding.ASCII.GetString(UDPclient.Receive(ref ep));
-                print("No string recieved");
-            }
-            catch
-            {
-
-            }
-            if (recievedString != null)
-            {
-                if (float.TryParse(recievedString, out temp_input))
-                {
-                    print("Recieved XValue: " + temp_input.ToString());
-                    xValue = temp_input;
-                    recievedString = null;
-                }
-                else print(recievedString); // Recibimos "w" y la imprimimos
-            }
-            else
-            {
-                print("No string recieved");
             }
         }
     }
@@ -122,5 +105,89 @@ public class UDPAnalogComm : MonoBehaviour
     {
         byte[] message = Encoding.ASCII.GetBytes(str);
         client.Send(message, str.Length);
+    }
+
+    private void SendRecieveData(BodyPartEnum bodyPart, DataReqEnum dataReq)
+    {
+        
+        sendRequestData(UDPclient, GetRequestString(bodyPart,dataReq));
+        //Receive Response Data Y
+        try
+        {
+            recievedString = Encoding.ASCII.GetString(UDPclient.Receive(ref ep));
+            print("No string recieved");
+        }
+        catch
+        {
+
+        }
+        if (recievedString != null)
+        {
+            if (float.TryParse(recievedString, out temp_input))
+            {
+                print("Recieved YValue: " + temp_input.ToString());
+                StoreDataPacket(bodyPart,dataReq,temp_input);
+                recievedString = null;
+            }
+            else print(recievedString); //Recibimos "w" y la imprimimos
+        }
+        else
+        {
+            print("No string recieved");
+        }
+    }
+
+    private void StoreDataPacket(BodyPartEnum bodyPart, DataReqEnum dataReq,float data)
+    {
+        foreach (BodyDataPacket packet in bodyPackets)
+        {
+            if (packet.bodyPart == bodyPart) packet.SetValueByEnum(dataReq,data);
+        }
+
+    }
+        private String GetRequestString(BodyPartEnum bodyPart, DataReqEnum dataReq)
+    {
+        String str = "";
+        switch (bodyPart)
+        {
+            case BodyPartEnum.armRight:
+                str += "ar";
+                break;
+            case BodyPartEnum.armLeft:
+                str += "al";
+                break;
+            case BodyPartEnum.center:
+                str += "c";
+                break;
+            case BodyPartEnum.footRight:
+                str += "fr";
+                break;
+            case BodyPartEnum.footLeft:
+                str += "fl";
+                break;
+            default:
+                break;
+        }
+        switch (dataReq)
+        {
+            case DataReqEnum.rotX:
+                str += "xz";
+                break;
+            case DataReqEnum.rotY:
+                str += "yz";
+                break;
+            case DataReqEnum.accX:
+                str += "x";
+                break;
+            case DataReqEnum.accY:
+                str += "y";
+                break;
+            case DataReqEnum.accZ:
+                str += "z";
+                break;
+            default:
+                break;
+        }
+        return str;
     }
 }

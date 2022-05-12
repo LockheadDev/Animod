@@ -1,9 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Extension;
+using static UDPAnalogComm;
 
 public class AnalogSceneSequencer : MonoBehaviour
 {
+    [System.Serializable]
+    public class AnimationSlot
+    {
+        public string name;
+        public GameObject go;
+        public BodyPartEnum bodyPart;
+        public List<AnimationControlEnum> animationControls = new List<AnimationControlEnum>();
+    }
+    public List<AnimationSlot> animationSlots = new List<AnimationSlot>();
+
     //Degree mapping values
     public float xMaxdegValue;
     public float xMindegValue;
@@ -15,10 +27,11 @@ public class AnalogSceneSequencer : MonoBehaviour
     public float xMinmapValue;
     public float yMaxmapValue;
     public float yMinmapValue;
+
+
     //Interface
     [SerializeField]
     public UDPAnalogComm udpanalogcomm { get; set; }
-
     //Create Singleton
     public static AnalogSceneSequencer Instance { get; private set; }
 
@@ -50,6 +63,12 @@ public class AnalogSceneSequencer : MonoBehaviour
     }
     public void UpdateAnimation()
     {
+        //TODO - READ BODY DATA PACKETS 
+        
+        foreach(BodyDataPacket packet in udpanalogcomm.bodyPackets)
+        {
+            //TODO - Put body data inside animationControls
+        }
             temp_x = Extension.Remap(udpanalogcomm.xValue,xMindegValue,xMaxdegValue,xMinmapValue,xMaxmapValue);
             temp_y = Extension.Remap(udpanalogcomm.yValue, yMindegValue, yMaxdegValue, yMinmapValue, yMaxmapValue);
 

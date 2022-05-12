@@ -171,6 +171,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea42d4d2daec96f428992e7994a3fa6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animationSlots:
+  - name: Anim Arm Right 1
+    go: {fileID: 0}
+    bodyPart: 0
+    animationControls: 
+  - name: Anim Arm Left 1
+    go: {fileID: 0}
+    bodyPart: 1
+    animationControls: 
   xMaxdegValue: 45
   xMindegValue: -45
   yMaxdegValue: 90
@@ -211,8 +220,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enConnection: 1
   port: 42069
-  defString: x
   temp_input: 0
+  bodyPartSequence: 0000000001000000
+  dataReqSequence: 0000000001000000020000000300000004000000
+  bodyPackets:
+  - name: Arm Right
+    bodyPart: 0
+    rotX: 0
+    rotY: 0
+    accX: 0
+    accY: 0
+    accZ: 0
+  - name: Arm Left
+    bodyPart: 1
+    rotX: 0
+    rotY: 0
+    accX: 0
+    accY: 0
+    accZ: 0
+  - name: Center
+    bodyPart: 2
+    rotX: 0
+    rotY: 0
+    accX: 0
+    accY: 0
+    accZ: 0
+  - name: Foot Right
+    bodyPart: 3
+    rotX: 0
+    rotY: 0
+    accX: 0
+    accY: 0
+    accZ: 0
+  - name: Foot Left
+    bodyPart: 4
+    rotX: 0
+    rotY: 0
+    accX: 0
+    accY: 0
+    accZ: 0
   yValue: 0
   xValue: 0
 --- !u!4 &1243707571
