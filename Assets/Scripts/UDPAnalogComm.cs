@@ -9,6 +9,8 @@ using System.Collections.Generic;
 
 public class UDPAnalogComm : MonoBehaviour
 {
+    //TODO Customize each packet data if not interested in any of the input values
+    #region Classes and structs
     [System.Serializable]
     public class BodyDataPacket
     {
@@ -37,20 +39,36 @@ public class UDPAnalogComm : MonoBehaviour
                     break;
             }
         }
+        public float GetValueByEnum(DataReqEnum dataReq)
+        {
+            switch (dataReq)
+            {
+                case DataReqEnum.rotX:
+                    return rotX;
+                case DataReqEnum.rotY:
+                    return rotY;
+                case DataReqEnum.accX:
+                    return accX;
+                case DataReqEnum.accY:
+                    return accY;
+                case DataReqEnum.accZ:
+                    return accZ;
+            }
+            return 0f;
+        }
     }
-
-    [SerializeField]
-    private bool enConnection = false;
-
-    [SerializeField]
-    private int port = 42069;
+    #endregion
+    [Space]
+    [Header("UDP Configuration and data")]
+    [SerializeField]private bool enConnection = false;
+    [SerializeField]private int port = 42069;
     public float temp_input;
 
+    [Space]
+    [Header("Data management")]
     public List<BodyPartEnum> bodyPartSequence = new List<BodyPartEnum>();
     public List<DataReqEnum> dataReqSequence = new List<DataReqEnum>();
     public List<BodyDataPacket> bodyPackets = new List<BodyDataPacket>();
-    public float yValue = 0 ;
-    public float xValue = 0 ;
 
     private UdpClient UDPclient = new UdpClient();
     private IPEndPoint ep;
@@ -111,25 +129,24 @@ public class UDPAnalogComm : MonoBehaviour
     {
         
         sendRequestData(UDPclient, GetRequestString(bodyPart,dataReq));
-        //Receive Response Data Y
         try
         {
             recievedString = Encoding.ASCII.GetString(UDPclient.Receive(ref ep));
             print("No string recieved");
         }
-        catch
+        catch(Exception ex)
         {
-
+            Debug.LogException(ex);
         }
         if (recievedString != null)
         {
             if (float.TryParse(recievedString, out temp_input))
             {
-                print("Recieved YValue: " + temp_input.ToString());
+                print("Recieved " + dataReq.ToString() +" from "+bodyPart.ToString()+ " -: " + temp_input.ToString());
                 StoreDataPacket(bodyPart,dataReq,temp_input);
                 recievedString = null;
             }
-            else print(recievedString); //Recibimos "w" y la imprimimos
+            else print("On await: " + recievedString); //Recibimos "w" y la imprimimos
         }
         else
         {
