@@ -169,6 +169,12 @@ MonoBehaviour:
   animationSlots:
   - name: Arm Right ROT X -> GO ROT X
     go: {fileID: 1438649633}
+    bodyPart: 0
+    dataReq: 0
+    control: 2
+    direction: 0
+  - name: Arm Left ROT X -> GO ROT X
+    go: {fileID: 1152387300}
     bodyPart: 1
     dataReq: 0
     control: 0
