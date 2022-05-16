@@ -154,7 +154,20 @@ public class AnalogSceneSequencer : MonoBehaviour
     private void SetColor(AnimationSlot slot, float value)
     {
         float temp_value = Extension.Remap(value, getMinMax(slot.dataReq).Item1, getMinMax(slot.dataReq).Item2, 0, 255); //TODO HARDCODED TO RED
-        slot.go.GetComponent<MeshRenderer>().material.color = new Color(temp_value, 200, 200);
+        Color clr = slot.go.GetComponentInChildren<MeshRenderer>().material.color;
+        switch (slot.direction)
+        {
+            case DirectionEnum.x_r:
+                clr.r = temp_value / 255f;
+                break;
+            case DirectionEnum.y_g:
+                clr.g = temp_value / 255f;
+                break;
+            case DirectionEnum.z_b:
+                clr.b = temp_value/255f;
+                break;
+        }
+        slot.go.GetComponentInChildren<MeshRenderer>().material.color = clr;
     }
 
     private void SetPosition(AnimationSlot slot, float value)
@@ -169,20 +182,20 @@ public class AnalogSceneSequencer : MonoBehaviour
        
         switch (slot.direction)
         {
-            case DirectionEnum.x:
+            case DirectionEnum.x_r:
                 temp_value = Extension.Remap(value,min,max,OutputPosMapX.min,OutputPosMapX.max);
                 temp_vec3.x = temp_value;
                 break;
-            case DirectionEnum.y:
+            case DirectionEnum.y_g:
                 temp_value = Extension.Remap(value, min, max, OutputPosMapY.min, OutputPosMapY.max);
                 temp_vec3.y = temp_value;
                 break;
-            case DirectionEnum.z:
+            case DirectionEnum.z_b:
                 temp_value = Extension.Remap(value, min, max, OutputPosMapZ.min, OutputPosMapZ.max);
                 temp_vec3.z = temp_value;
                 break;
         }
-        slot.go.transform.position = temp_vec3;
+        slot.go.transform.position = Vector3.Lerp(slot.go.transform.position,temp_vec3,Time.deltaTime*10f);
         //print("num " + value + "->" + temp_value);
     }
 
@@ -198,15 +211,15 @@ public class AnalogSceneSequencer : MonoBehaviour
         //TODO Debug and set mapping like in SetPosition() method...
         switch (slot.direction)
         {
-            case DirectionEnum.x:
+            case DirectionEnum.x_r:
                 temp_val = Extension.Remap(value, min, max, OutputRotMapX.min, OutputRotMapX.max);
                 tiltX = temp_val;
                 break;
-            case DirectionEnum.y:
+            case DirectionEnum.y_g:
                 temp_val = Extension.Remap(value, min, max, OutputRotMapY.min, OutputRotMapY.max);
                 tiltY = temp_val;
                 break;
-            case DirectionEnum.z:
+            case DirectionEnum.z_b:
                 temp_val = Extension.Remap(value, min, max, OutputRotMapZ.min, OutputRotMapZ.max);
                 tiltZ = temp_val;
                 break;
@@ -239,7 +252,9 @@ public class AnalogSceneSequencer : MonoBehaviour
                 min = InputAccMapZ.min;
                 max = InputAccMapZ.max;
                 break;
+            
             default:
+        
                 break;
         }
         return Tuple.Create(min, max);
