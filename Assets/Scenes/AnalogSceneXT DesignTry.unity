@@ -167,48 +167,62 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animationSlots:
-  - name: Arm Right ROT X -> GO POS X
+  - name: AR ROT X -> GO ROT X
     enable: 1
     go: {fileID: 1923176352}
     bodyPart: 0
     dataReq: 0
-    control: 1
+    control: 0
     direction: 0
-  - name: Arm Left ROT X -> GO POS X
+  - name: AL ROT X -> GO ROT X
     enable: 1
     go: {fileID: 1078653934}
     bodyPart: 1
     dataReq: 0
+    control: 0
+    direction: 0
+  - name: AR ROT Y -> GO ROT Y
+    enable: 1
+    go: {fileID: 1923176352}
+    bodyPart: 0
+    dataReq: 1
+    control: 0
+    direction: 2
+  - name: AL ROT Y -> GO ROT Y
+    enable: 1
+    go: {fileID: 1078653934}
+    bodyPart: 1
+    dataReq: 1
+    control: 0
+    direction: 2
+  - name: 'AL ACC Y-> GO POS Y '
+    enable: 1
+    go: {fileID: 1078653934}
+    bodyPart: 1
+    dataReq: 3
+    control: 1
+    direction: 1
+  - name: AR ACC Y -> GO POS Y
+    enable: 1
+    go: {fileID: 1923176352}
+    bodyPart: 0
+    dataReq: 3
+    control: 1
+    direction: 1
+  - name: AR ACC X -> GO POS X
+    enable: 1
+    go: {fileID: 1923176352}
+    bodyPart: 0
+    dataReq: 2
     control: 1
     direction: 0
-  - name: Arm Right ROT Y -> GO POS Y
-    enable: 1
-    go: {fileID: 1923176352}
-    bodyPart: 0
-    dataReq: 1
-    control: 1
-    direction: 1
-  - name: Arm Left ROT Y -> GO POS X
+  - name: AL ACC X -> GO POS X
     enable: 1
     go: {fileID: 1078653934}
     bodyPart: 1
-    dataReq: 1
+    dataReq: 2
     control: 1
-    direction: 1
-  - name: 'Arm Left ACC Y -> GO SCA '
-    enable: 1
-    go: {fileID: 1078653934}
-    bodyPart: 1
-    dataReq: 3
-    control: 2
-    direction: 1
-  - name: 'Arm Right ACC Y -> GO SCA '
-    enable: 1
-    go: {fileID: 1923176352}
-    bodyPart: 0
-    dataReq: 3
-    control: 2
-    direction: 1
+    direction: 0
   InputRotMapX:
     min: -90
     max: 90
@@ -234,11 +248,14 @@ MonoBehaviour:
     min: 0
     max: 0
   OutputRotMapX:
-    min: -90
-    max: 90
+    min: -360
+    max: 360
   OutputRotMapY:
-    min: -90
-    max: 90
+    min: -360
+    max: 360
+  OutputRotMapZ:
+    min: -360
+    max: 360
   OutputScaleMap:
     min: 1
     max: 5
@@ -371,7 +388,7 @@ MonoBehaviour:
   port: 42069
   temp_input: 0
   bodyPartSequence: 0000000001000000
-  dataReqSequence: 000000000100000003000000
+  dataReqSequence: 00000000010000000300000002000000
   bodyPackets:
   - name: Arm Right
     bodyPart: 0

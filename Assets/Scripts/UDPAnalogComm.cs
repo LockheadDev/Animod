@@ -20,24 +20,26 @@ public class UDPAnalogComm : MonoBehaviour
 
         public void SetValueByEnum(DataReqEnum dataReq,float value)
         {
+            
             switch (dataReq)
             {
                 case DataReqEnum.rotX:
-                    this.rotX = value;
+                    rotX = value;
                     break;
                 case DataReqEnum.rotY:
-                    this.rotY = value;
+                    rotY = value;
                     break;
                 case DataReqEnum.accX:
-                    this.accX = value;
+                    accX = value;
                     break;
                 case DataReqEnum.accY:
-                    this.accY = value;
+                    accY = value;
                     break;
                 case DataReqEnum.accZ:
-                    this.accZ = value;
+                    accZ = value;
                     break;
             }
+            //print(dataReq.ToString() + " " + rotX.ToString());
         }
         public float GetValueByEnum(DataReqEnum dataReq)
         {
@@ -142,7 +144,7 @@ public class UDPAnalogComm : MonoBehaviour
         {
             if (float.TryParse(recievedString, out temp_input))
             {
-                print("Recieved " + dataReq.ToString() +" from "+bodyPart.ToString()+ " -: " + temp_input.ToString());
+                print("Recieved " + dataReq.ToString() +" from "+bodyPart.ToString()+ " = " + temp_input.ToString());
                 StoreDataPacket(bodyPart,dataReq,temp_input);
                 recievedString = null;
             }
@@ -182,8 +184,6 @@ public class UDPAnalogComm : MonoBehaviour
             case BodyPartEnum.footLeft:
                 str += "fl";
                 break;
-            default:
-                break;
         }
         switch (dataReq)
         {
@@ -202,9 +202,15 @@ public class UDPAnalogComm : MonoBehaviour
             case DataReqEnum.accZ:
                 str += "z";
                 break;
-            default:
-                break;
         }
         return str;
+    }
+    private void OnApplicationQuit()
+    {
+        thread.Abort();
+    }
+    private void OnDestroy()
+    {
+        thread.Abort();
     }
 }

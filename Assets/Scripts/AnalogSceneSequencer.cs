@@ -12,6 +12,7 @@ public class AnalogSceneSequencer : MonoBehaviour
     public class AnimationSlot
     {
         public string name;
+        public bool enable;
         public GameObject go;
         [Space]
         [Header("Input data")]
@@ -38,6 +39,12 @@ public class AnalogSceneSequencer : MonoBehaviour
     public MapVal InputRotMapX;
     public MapVal InputRotMapY;
 
+    [Header("MAP acceleration input - deg")]
+    //Degree mapping values
+    public MapVal InputAccMapX;
+    public MapVal InputAccMapY;
+    public MapVal InputAccMapZ;
+
     [Space]
     [Header("MAP position output - float")]
     //World space mapping values
@@ -50,6 +57,11 @@ public class AnalogSceneSequencer : MonoBehaviour
     //World rotation mapping values
     public MapVal OutputRotMapX;
     public MapVal OutputRotMapY;
+    public MapVal OutputRotMapZ;
+
+    [Space]
+    [Header("MAP scale output - float")]
+    public MapVal OutputScaleMap;
 
     //Interface
     [SerializeField]
@@ -70,10 +82,14 @@ public class AnalogSceneSequencer : MonoBehaviour
         if (!udpanalogcomm) udpanalogcomm = GameObject.Find("UDPClient").GetComponent<UDPAnalogComm>();
     }
 
+    private void FixedUpdate()
+    {
+        UpdateAnimation();
+    }
     // Update is called once per frame
     void Update()
     {
-        UpdateAnimation();
+        //UpdateAnimation();
     }
     private void UpdateAnimation()
     {
@@ -84,6 +100,7 @@ public class AnalogSceneSequencer : MonoBehaviour
             {
                 if(packet.bodyPart==animslot.bodyPart)
                 {
+                    //print("AnalogSequencer: " + packet.bodyPart.ToString() + "=" + packet.GetValueByEnum(animslot.dataReq));
                     UpdateAnimationSlot(animslot,packet.GetValueByEnum(animslot.dataReq));
                 }
             }
@@ -99,10 +116,11 @@ public class AnalogSceneSequencer : MonoBehaviour
 
     private void UpdateAnimationSlot(AnimationSlot slot,float value)
     {
+        if (!slot.enable) return;
         switch (slot.control)
         {
             case AnimationControlEnum.rotation:
-                SetRotation(slot,value);
+                SetRotation(slot, value);
                 break;
             case AnimationControlEnum.position:
                 SetPosition(slot, value);
@@ -110,9 +128,29 @@ public class AnalogSceneSequencer : MonoBehaviour
             case AnimationControlEnum.color:
                 SetColor(slot, value);
                 break;
+            case AnimationControlEnum.scale:
+                SetScale(slot, value);
+                break;
+            case AnimationControlEnum.acceleration:
+                SetAcc(slot, value);
+                break;
         }
     }
 
+    private void SetAcc(AnimationSlot slot, float value)
+    {
+        if(value>Math.Abs(2f))
+        slot.go.GetComponent<Rigidbody>().AddForce(new Vector3(value * 10, 0, 0),ForceMode.Impulse);
+
+    }
+
+    private void SetScale(AnimationSlot slot, float value)
+    {
+        float min = getMinMax(slot.dataReq).Item1;
+        float max = getMinMax(slot.dataReq).Item2;
+        float vec_value = Extension.Remap(value, min, max, OutputScaleMap.min, OutputScaleMap.max);
+        slot.go.transform.localScale = new Vector3(vec_value, vec_value, vec_value);
+    }
     private void SetColor(AnimationSlot slot, float value)
     {
         float temp_value = Extension.Remap(value, getMinMax(slot.dataReq).Item1, getMinMax(slot.dataReq).Item2, 0, 255); //TODO HARDCODED TO RED
@@ -121,45 +159,60 @@ public class AnalogSceneSequencer : MonoBehaviour
 
     private void SetPosition(AnimationSlot slot, float value)
     {
+        
         float temp_value = 0f;
         float min=0f, max = 0f;
+        Vector3 temp_vec3 = slot.go.transform.position;
 
         min = getMinMax(slot.dataReq).Item1;
         max = getMinMax(slot.dataReq).Item2;
-
+       
         switch (slot.direction)
         {
             case DirectionEnum.x:
                 temp_value = Extension.Remap(value,min,max,OutputPosMapX.min,OutputPosMapX.max);
-                slot.go.transform.SetPositionAndRotation(slot.go.transform.position + new Vector3(temp_value, 0, 0),Quaternion.identity);
+                temp_vec3.x = temp_value;
                 break;
             case DirectionEnum.y:
                 temp_value = Extension.Remap(value, min, max, OutputPosMapY.min, OutputPosMapY.max);
-                slot.go.transform.SetPositionAndRotation(slot.go.transform.position + new Vector3(0, temp_value, 0), Quaternion.identity);
+                temp_vec3.y = temp_value;
                 break;
             case DirectionEnum.z:
                 temp_value = Extension.Remap(value, min, max, OutputPosMapZ.min, OutputPosMapZ.max);
-                slot.go.transform.SetPositionAndRotation(slot.go.transform.position + new Vector3(0, 0, temp_value), Quaternion.identity);
+                temp_vec3.z = temp_value;
                 break;
         }
+        slot.go.transform.position = temp_vec3;
+        //print("num " + value + "->" + temp_value);
     }
 
     private void SetRotation(AnimationSlot slot, float value)
     {
+        float min = getMinMax(slot.dataReq).Item1;
+        float max = getMinMax(slot.dataReq).Item2;
+        float temp_val = 0f;
+        float tiltX = slot.go.transform.rotation.x;
+        float tiltY = slot.go.transform.rotation.y;
+        float tiltZ = slot.go.transform.rotation.z;
+        Quaternion targetRotation;
         //TODO Debug and set mapping like in SetPosition() method...
         switch (slot.direction)
         {
             case DirectionEnum.x:
-                slot.go.transform.Rotate(value, 0, 0);
+                temp_val = Extension.Remap(value, min, max, OutputRotMapX.min, OutputRotMapX.max);
+                tiltX = temp_val;
                 break;
             case DirectionEnum.y:
-                slot.go.transform.Rotate(0, value, 0);
+                temp_val = Extension.Remap(value, min, max, OutputRotMapY.min, OutputRotMapY.max);
+                tiltY = temp_val;
                 break;
             case DirectionEnum.z:
-                slot.go.transform.Rotate(0, 0, value);
+                temp_val = Extension.Remap(value, min, max, OutputRotMapZ.min, OutputRotMapZ.max);
+                tiltZ = temp_val;
                 break;
         }
-
+        targetRotation = Quaternion.Euler(tiltX, tiltY, tiltZ);
+        slot.go.transform.rotation = Quaternion.Slerp(slot.go.transform.rotation,targetRotation,Time.deltaTime*10f);
     }
     private Tuple<float,float> getMinMax(DataReqEnum dataReq)
     {
@@ -175,13 +228,16 @@ public class AnalogSceneSequencer : MonoBehaviour
                 min = InputRotMapY.min;
                 break;
             case DataReqEnum.accX:
-                //TODO IMPLEMENT ACC MAPPING
+                min = InputAccMapX.min;
+                max = InputAccMapX.max;
                 break;
             case DataReqEnum.accY:
-                //TODO IMPLEMENT ACC MAPPING
+                min = InputAccMapY.min;
+                max = InputAccMapY.max;
                 break;
             case DataReqEnum.accZ:
-                //TODO IMPLEMENT ACC MAPPING
+                min = InputAccMapZ.min;
+                max = InputAccMapZ.max;
                 break;
             default:
                 break;
