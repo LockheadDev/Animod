@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static Extension;
 using static UDPAnalogComm;
@@ -23,16 +24,17 @@ public class AnalogSceneSequencer : MonoBehaviour
         public AnimationControlEnum control;
         public DirectionEnum direction;
     }
-    [System.Serializable]
-    public struct MapVal
-    {
-        public float min, max;
-    }
     #endregion
-
+    [Space]
+    [SerializeField]
+    private SOMapConfig mappingConfigurations;
+    [Space]
+    [SerializeField]
+    private bool enLerpPos = true;
     [Space]
     public List<AnimationSlot> animationSlots = new List<AnimationSlot>();
     
+    /*
     [Space]
     [Header("MAP rotation input - deg")]
     //Degree mapping values
@@ -62,6 +64,7 @@ public class AnalogSceneSequencer : MonoBehaviour
     [Space]
     [Header("MAP scale output - float")]
     public MapVal OutputScaleMap;
+    */
 
     //Interface
     [SerializeField]
@@ -100,18 +103,10 @@ public class AnalogSceneSequencer : MonoBehaviour
             {
                 if(packet.bodyPart==animslot.bodyPart)
                 {
-                    //print("AnalogSequencer: " + packet.bodyPart.ToString() + "=" + packet.GetValueByEnum(animslot.dataReq));
                     UpdateAnimationSlot(animslot,packet.GetValueByEnum(animslot.dataReq));
                 }
             }
         }
-
-        /*
-            temp_x = Extension.Remap(udpanalogcomm.xValue,xMindegValue,xMaxdegValue,xMinmapValue,xMaxmapValue);
-            temp_y = Extension.Remap(udpanalogcomm.yValue, yMindegValue, yMaxdegValue, yMinmapValue, yMaxmapValue);
-        */
-
-        //sphere.transform.SetPositionAndRotation(new Vector3(temp_x, temp_y), Quaternion.identity);
     }
 
     private void UpdateAnimationSlot(AnimationSlot slot,float value)
@@ -148,7 +143,7 @@ public class AnalogSceneSequencer : MonoBehaviour
     {
         float min = getMinMax(slot.dataReq).Item1;
         float max = getMinMax(slot.dataReq).Item2;
-        float vec_value = Extension.Remap(value, min, max, OutputScaleMap.min, OutputScaleMap.max);
+        float vec_value = Extension.Remap(value, min, max, mappingConfigurations.OutputScaleMap.min, mappingConfigurations.OutputScaleMap.max);
         slot.go.transform.localScale = new Vector3(vec_value, vec_value, vec_value);
     }
     private void SetColor(AnimationSlot slot, float value)
@@ -168,6 +163,13 @@ public class AnalogSceneSequencer : MonoBehaviour
                 break;
         }
         slot.go.GetComponentInChildren<MeshRenderer>().material.color = clr;
+        List<ParticleSystem> ps = slot.go.GetComponentsInChildren<ParticleSystem>().ToList();
+        foreach (ParticleSystem item in ps)
+        {
+            ParticleSystem.MainModule psMain = item.main;
+
+            psMain.startColor = clr;
+        }
     }
 
     private void SetPosition(AnimationSlot slot, float value)
@@ -183,19 +185,20 @@ public class AnalogSceneSequencer : MonoBehaviour
         switch (slot.direction)
         {
             case DirectionEnum.x_r:
-                temp_value = Extension.Remap(value,min,max,OutputPosMapX.min,OutputPosMapX.max);
-                temp_vec3.x = temp_value;
+                temp_value = Extension.Remap(value,min,max, mappingConfigurations.OutputPosMapX.min, mappingConfigurations.OutputPosMapX.max);
+                temp_vec3.x = -temp_value; //INVERTED WATCH OUT
                 break;
             case DirectionEnum.y_g:
-                temp_value = Extension.Remap(value, min, max, OutputPosMapY.min, OutputPosMapY.max);
+                temp_value = Extension.Remap(value, min, max, mappingConfigurations.OutputPosMapY.min, mappingConfigurations.OutputPosMapY.max);
                 temp_vec3.y = temp_value;
                 break;
             case DirectionEnum.z_b:
-                temp_value = Extension.Remap(value, min, max, OutputPosMapZ.min, OutputPosMapZ.max);
+                temp_value = Extension.Remap(value, min, max, mappingConfigurations.OutputPosMapZ.min, mappingConfigurations.OutputPosMapZ.max);
                 temp_vec3.z = temp_value;
                 break;
         }
-        slot.go.transform.position = Vector3.Lerp(slot.go.transform.position,temp_vec3,Time.deltaTime*10f);
+        if (enLerpPos) slot.go.transform.position = Vector3.Lerp(slot.go.transform.position, temp_vec3, Time.deltaTime * 10f);
+        else slot.go.transform.position = temp_vec3;
         //print("num " + value + "->" + temp_value);
     }
 
@@ -212,15 +215,15 @@ public class AnalogSceneSequencer : MonoBehaviour
         switch (slot.direction)
         {
             case DirectionEnum.x_r:
-                temp_val = Extension.Remap(value, min, max, OutputRotMapX.min, OutputRotMapX.max);
+                temp_val = Extension.Remap(value, min, max, mappingConfigurations.OutputRotMapX.min, mappingConfigurations.OutputRotMapX.max);
                 tiltX = temp_val;
                 break;
             case DirectionEnum.y_g:
-                temp_val = Extension.Remap(value, min, max, OutputRotMapY.min, OutputRotMapY.max);
+                temp_val = Extension.Remap(value, min, max, mappingConfigurations.OutputRotMapY.min, mappingConfigurations.OutputRotMapY.max);
                 tiltY = temp_val;
                 break;
             case DirectionEnum.z_b:
-                temp_val = Extension.Remap(value, min, max, OutputRotMapZ.min, OutputRotMapZ.max);
+                temp_val = Extension.Remap(value, min, max, mappingConfigurations.OutputRotMapZ.min, mappingConfigurations.OutputRotMapZ.max);
                 tiltZ = temp_val;
                 break;
         }
@@ -233,24 +236,24 @@ public class AnalogSceneSequencer : MonoBehaviour
         switch (dataReq)
         {
             case DataReqEnum.rotX:
-                min = InputRotMapX.min;
-                max = InputRotMapX.max;
+                min = mappingConfigurations.InputRotMapX.min;
+                max = mappingConfigurations.InputRotMapX.max;
                 break;
             case DataReqEnum.rotY:
-                max = InputRotMapY.max;
-                min = InputRotMapY.min;
+                max = mappingConfigurations.InputRotMapY.max;
+                min = mappingConfigurations.InputRotMapY.min;
                 break;
             case DataReqEnum.accX:
-                min = InputAccMapX.min;
-                max = InputAccMapX.max;
+                min = mappingConfigurations.InputAccMapX.min;
+                max = mappingConfigurations.InputAccMapX.max;
                 break;
             case DataReqEnum.accY:
-                min = InputAccMapY.min;
-                max = InputAccMapY.max;
+                min = mappingConfigurations.InputAccMapY.min;
+                max = mappingConfigurations.InputAccMapY.max;
                 break;
             case DataReqEnum.accZ:
-                min = InputAccMapZ.min;
-                max = InputAccMapZ.max;
+                min = mappingConfigurations.InputAccMapZ.min;
+                max = mappingConfigurations.InputAccMapZ.max;
                 break;
             
             default:

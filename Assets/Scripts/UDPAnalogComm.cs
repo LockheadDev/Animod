@@ -18,9 +18,9 @@ public class UDPAnalogComm : MonoBehaviour
         public BodyPartEnum bodyPart;
         public float rotX, rotY, accX, accY, accZ;
 
-        public void SetValueByEnum(DataReqEnum dataReq,float value)
+        public void SetValueByEnum(DataReqEnum dataReq, float value)
         {
-            
+
             switch (dataReq)
             {
                 case DataReqEnum.rotX:
@@ -62,9 +62,13 @@ public class UDPAnalogComm : MonoBehaviour
     #endregion
     [Space]
     [Header("UDP Configuration and data")]
-    [SerializeField]private bool enConnection = false;
-    [SerializeField]private int port = 42069;
-    public float temp_input;
+    [SerializeField] private bool enConnection = false;
+    [SerializeField] private int port = 42069;
+    [SerializeField] private string IP = "127.0.0.1";
+    [SerializeField] private float connectionWD =1.0f;
+    private float timerWD;
+    private bool recievedData = false;
+    private float temp_input;
 
     [Space]
     [Header("Data management")]
@@ -81,9 +85,9 @@ public class UDPAnalogComm : MonoBehaviour
 
     void Start()
     {
-        //ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), port);    //Initialize port LOOPBACK
-        ep = new IPEndPoint(IPAddress.Parse("192.168.0.100"), port); // KHERI ADDRESS
+        ep = new IPEndPoint(IPAddress.Parse(IP), port);
         if (enConnection) StartConnection();                        //Start connection
+        timerWD = connectionWD;
     }
 
     // Update is called once per frame
@@ -91,22 +95,33 @@ public class UDPAnalogComm : MonoBehaviour
     {
         //KEY: T -> Finish connection
         if (Input.GetKeyDown(KeyCode.T)) StopConnection();
-
-
+        connectionWD -= Time.deltaTime;
+        if (connectionWD<0)
+        {
+            connectionWD = timerWD;
+            if (recievedData == false)
+            {
+                RequestAllParts();
+            }
+        }
     }
     private void RequestServer()
     {
         while (true)
         {
+            recievedData=false;
             print("Sending request data...");
-
-            //REQUEST and STORE data
-            foreach (BodyPartEnum bodyPart in bodyPartSequence)
+            RequestAllParts();
+        }
+    }
+    private void RequestAllParts()
+    {
+        foreach (BodyPartEnum bodyPart in bodyPartSequence)
+        {
+            foreach (DataReqEnum dataReq in dataReqSequence)
             {
-                foreach (DataReqEnum dataReq in dataReqSequence)
-                {
-                    SendRecieveData(bodyPart,dataReq);
-                }
+                SendRecieveData(bodyPart, dataReq);
+                recievedData = true;
             }
         }
     }
@@ -204,13 +219,5 @@ public class UDPAnalogComm : MonoBehaviour
                 break;
         }
         return str;
-    }
-    private void OnApplicationQuit()
-    {
-        thread.Abort();
-    }
-    private void OnDestroy()
-    {
-        thread.Abort();
     }
 }
