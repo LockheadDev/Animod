@@ -112,11 +112,44 @@ public class AnalogSceneSequencer : MonoBehaviour
 
     private void UpdateAnimationSlot(AnimationSlot slot,float value)
     {
+        AnimationControlEnum[] controlList =
+            {AnimationControlEnum.position,AnimationControlEnum.acceleration,
+            AnimationControlEnum.rotation,AnimationControlEnum.volume,
+            AnimationControlEnum.pitch,AnimationControlEnum.color,
+            AnimationControlEnum.scale};
+
+        //TODO!! Finish SO Handler
+        foreach(AnimationControlEnum control in controlList)
+        {
+            switch (control)
+            {
+                case AnimationControlEnum.rotation:
+                    foreach(RotationEffect posEffect in slot.outputData.rotationEffects)
+                    {
+                        SetRotation(slot, value,posEffect.Direction);
+                    }
+                    break;
+                case AnimationControlEnum.position:
+                    break;
+                case AnimationControlEnum.scale:
+                    break;
+                case AnimationControlEnum.acceleration:
+                    break;
+                case AnimationControlEnum.color:
+                    break;
+                case AnimationControlEnum.pitch:
+                    break;
+                case AnimationControlEnum.volume:
+                    break;
+                default:
+                    break;
+            }
+        }
         if (!slot.enable) return;
-        switch (slot.outputData.control)
+        switch (AnimationControlEnum.rotation)
         {
             case AnimationControlEnum.rotation:
-                SetRotation(slot, value);
+                //SetRotation(slot, value);
                 break;
             case AnimationControlEnum.position:
                 SetPosition(slot, value);
@@ -171,7 +204,7 @@ public class AnalogSceneSequencer : MonoBehaviour
     {
         float temp_value = Extension.Remap(value, getMinMax(slot.inputData.variable).Item1, getMinMax(slot.inputData.variable).Item2, 0, 255); //TODO HARDCODED TO RED
         Color clr = slot.go.GetComponentInChildren<MeshRenderer>().material.color;
-        switch (slot.outputData.color)
+        switch (ColorEnum.none)
         {
             case ColorEnum.none: return;
 
@@ -205,7 +238,7 @@ public class AnalogSceneSequencer : MonoBehaviour
         min = getMinMax(slot.inputData.variable).Item1;
         max = getMinMax(slot.inputData.variable).Item2;
        
-        switch (slot.outputData.direction)
+        switch (DirectionEnum.none)
         {
             case DirectionEnum.none: return ;
             case DirectionEnum.x:
@@ -226,7 +259,7 @@ public class AnalogSceneSequencer : MonoBehaviour
         //print("num " + value + "->" + temp_value);
     }
 
-    private void SetRotation(AnimationSlot slot, float value)
+    private void SetRotation(AnimationSlot slot, float value,DirectionEnum direction)
     {
         float min = getMinMax(slot.inputData.variable).Item1;
         float max = getMinMax(slot.inputData.variable).Item2;
@@ -236,7 +269,7 @@ public class AnalogSceneSequencer : MonoBehaviour
         float tiltZ = slot.go.transform.rotation.z;
         Quaternion targetRotation;
         //TODO Debug and set mapping like in SetPosition() method...
-        switch (slot.outputData.direction)
+        switch (direction)
         {
             case DirectionEnum.none: return;
             case DirectionEnum.x:
