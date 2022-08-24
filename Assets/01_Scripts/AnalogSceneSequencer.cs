@@ -12,17 +12,14 @@ public class AnalogSceneSequencer : MonoBehaviour
     [System.Serializable]
     public class AnimationSlot
     {
+
         public string name;
         public bool enable;
         public GameObject go;
         [Space]
-        [Header("Input data")]
-        public BodyPartEnum bodyPart;
-        public DataReqEnum dataReq;
-        [Space]
-        [Header("Animation Control")]
-        public AnimationControlEnum control;
-        public DirectionEnum direction;
+
+        public SOInputData inputData;
+        public SOOutputData outputData;
     }
     #endregion
     [Space]
@@ -105,9 +102,9 @@ public class AnalogSceneSequencer : MonoBehaviour
         {
             foreach (AnimationSlot animslot in animationSlots)
             {
-                if(packet.bodyPart==animslot.bodyPart)
+                if(packet.bodyPart==animslot.inputData.bodyPart)
                 {
-                    UpdateAnimationSlot(animslot,packet.GetValueByEnum(animslot.dataReq));
+                    UpdateAnimationSlot(animslot,packet.GetValueByEnum(animslot.inputData.variable));
                 }
             }
         }
@@ -116,7 +113,7 @@ public class AnalogSceneSequencer : MonoBehaviour
     private void UpdateAnimationSlot(AnimationSlot slot,float value)
     {
         if (!slot.enable) return;
-        switch (slot.control)
+        switch (slot.outputData.control)
         {
             case AnimationControlEnum.rotation:
                 SetRotation(slot, value);
@@ -165,24 +162,26 @@ public class AnalogSceneSequencer : MonoBehaviour
 
     private void SetScale(AnimationSlot slot, float value)
     {
-        float min = getMinMax(slot.dataReq).Item1;
-        float max = getMinMax(slot.dataReq).Item2;
+        float min = getMinMax(slot.inputData.variable).Item1;
+        float max = getMinMax(slot.inputData.variable).Item2;
         float vec_value = Extension.Remap(value, min, max, mappingConfigurations.OutputScaleMap.min, mappingConfigurations.OutputScaleMap.max);
         slot.go.transform.localScale = new Vector3(vec_value, vec_value, vec_value);
     }
     private void SetColor(AnimationSlot slot, float value)
     {
-        float temp_value = Extension.Remap(value, getMinMax(slot.dataReq).Item1, getMinMax(slot.dataReq).Item2, 0, 255); //TODO HARDCODED TO RED
+        float temp_value = Extension.Remap(value, getMinMax(slot.inputData.variable).Item1, getMinMax(slot.inputData.variable).Item2, 0, 255); //TODO HARDCODED TO RED
         Color clr = slot.go.GetComponentInChildren<MeshRenderer>().material.color;
-        switch (slot.direction)
+        switch (slot.outputData.color)
         {
-            case DirectionEnum.x_r:
+            case ColorEnum.none: return;
+
+            case ColorEnum.r:
                 clr.r = temp_value / 255f;
                 break;
-            case DirectionEnum.y_g:
+            case ColorEnum.g:
                 clr.g = temp_value / 255f;
                 break;
-            case DirectionEnum.z_b:
+            case ColorEnum.b:
                 clr.b = temp_value/255f;
                 break;
         }
@@ -203,20 +202,21 @@ public class AnalogSceneSequencer : MonoBehaviour
         float min=0f, max = 0f;
         Vector3 temp_vec3 = slot.go.transform.position;
 
-        min = getMinMax(slot.dataReq).Item1;
-        max = getMinMax(slot.dataReq).Item2;
+        min = getMinMax(slot.inputData.variable).Item1;
+        max = getMinMax(slot.inputData.variable).Item2;
        
-        switch (slot.direction)
+        switch (slot.outputData.direction)
         {
-            case DirectionEnum.x_r:
+            case DirectionEnum.none: return ;
+            case DirectionEnum.x:
                 temp_value = Extension.Remap(value,min,max, mappingConfigurations.OutputPosMapX.min, mappingConfigurations.OutputPosMapX.max);
                 temp_vec3.x = -temp_value; //INVERTED WATCH OUT
                 break;
-            case DirectionEnum.y_g:
+            case DirectionEnum.y:
                 temp_value = Extension.Remap(value, min, max, mappingConfigurations.OutputPosMapY.min, mappingConfigurations.OutputPosMapY.max);
                 temp_vec3.y = temp_value;
                 break;
-            case DirectionEnum.z_b:
+            case DirectionEnum.z:
                 temp_value = Extension.Remap(value, min, max, mappingConfigurations.OutputPosMapZ.min, mappingConfigurations.OutputPosMapZ.max);
                 temp_vec3.z = temp_value;
                 break;
@@ -228,25 +228,26 @@ public class AnalogSceneSequencer : MonoBehaviour
 
     private void SetRotation(AnimationSlot slot, float value)
     {
-        float min = getMinMax(slot.dataReq).Item1;
-        float max = getMinMax(slot.dataReq).Item2;
+        float min = getMinMax(slot.inputData.variable).Item1;
+        float max = getMinMax(slot.inputData.variable).Item2;
         float temp_val = 0f;
         float tiltX = slot.go.transform.rotation.x;
         float tiltY = slot.go.transform.rotation.y;
         float tiltZ = slot.go.transform.rotation.z;
         Quaternion targetRotation;
         //TODO Debug and set mapping like in SetPosition() method...
-        switch (slot.direction)
+        switch (slot.outputData.direction)
         {
-            case DirectionEnum.x_r:
+            case DirectionEnum.none: return;
+            case DirectionEnum.x:
                 temp_val = Extension.Remap(value, min, max, mappingConfigurations.OutputRotMapX.min, mappingConfigurations.OutputRotMapX.max);
                 tiltX = temp_val;
                 break;
-            case DirectionEnum.y_g:
+            case DirectionEnum.y:
                 temp_val = Extension.Remap(value, min, max, mappingConfigurations.OutputRotMapY.min, mappingConfigurations.OutputRotMapY.max);
                 tiltY = temp_val;
                 break;
-            case DirectionEnum.z_b:
+            case DirectionEnum.z:
                 temp_val = Extension.Remap(value, min, max, mappingConfigurations.OutputRotMapZ.min, mappingConfigurations.OutputRotMapZ.max);
                 tiltZ = temp_val;
                 break;

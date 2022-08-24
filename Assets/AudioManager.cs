@@ -7,8 +7,6 @@ public class AudioManager : MonoBehaviour
 
     public List<SoundBase> sounds = new List<SoundBase>();
 
-    
-    //TODO FIX - Only plays when audiosource is disabled and then enabled
     private void Awake()
     {
         foreach (SoundBase s in sounds)
@@ -22,7 +20,17 @@ public class AudioManager : MonoBehaviour
             
         }
     }
-    
+    private void Start()
+    {
+        //Helps audio play accordingly
+        foreach (SoundBase s in sounds)
+        {
+            s.source.enabled = false;
+            s.source.enabled = true;
+
+        }
+    }
+
     public void SetAudioVolume(string name, float volume)
     {
         foreach (SoundBase s in sounds)
