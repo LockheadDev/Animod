@@ -30,6 +30,9 @@ public class AnalogSceneSequencer : MonoBehaviour
     private SOMapConfig mappingConfigurations;
     [Space]
     [SerializeField]
+    private AudioManager audioManager;
+    [Space]
+    [SerializeField]
     private bool enLerpPos = true;
     [Space]
     public List<AnimationSlot> animationSlots = new List<AnimationSlot>();
@@ -72,12 +75,14 @@ public class AnalogSceneSequencer : MonoBehaviour
     //Create Singleton
     public static AnalogSceneSequencer Instance { get; private set; }
 
-
-    private void Awake()
+    private void Awake() //Singleton
     {
         // If there is an instance, and it's not me, delete myself.
         if (Instance != null && Instance != this) Destroy(this);
         else Instance = this;
+
+        //Find audiomanager
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
 
     }
     void Start()
@@ -89,7 +94,6 @@ public class AnalogSceneSequencer : MonoBehaviour
     {
         UpdateAnimation();
     }
-    // Update is called once per frame
     void Update()
     {
         //UpdateAnimation();
@@ -129,9 +133,29 @@ public class AnalogSceneSequencer : MonoBehaviour
             case AnimationControlEnum.acceleration:
                 SetAcc(slot, value);
                 break;
+            case AnimationControlEnum.pitch:
+                SetPitch(slot, value);
+                break;
+            case AnimationControlEnum.volume:
+                SetVolume(slot, value);
+                break;
         }
     }
 
+    private void SetVolume(AnimationSlot slot, float value)
+    {
+        // Range of pitch goes from 0 to 1f
+        //TODO set range
+        audioManager.SetAudioVolume("Music",value);
+    }
+
+    private void SetPitch(AnimationSlot slot, float value)
+    {
+
+        // Range of pitch goes from 0.1 to 3f
+        // TODO change ranges
+        audioManager.SetAudioPitch("Music", value);
+    }
     private void SetAcc(AnimationSlot slot, float value)
     {
         if(value>Math.Abs(2f))

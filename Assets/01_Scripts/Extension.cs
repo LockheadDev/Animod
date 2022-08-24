@@ -2,7 +2,7 @@ public static class Extension
 {
     public enum BodyPartEnum {armRight,armLeft,center,footRight,footLeft}
     public enum DataReqEnum {rotX,rotY,accX,accY,accZ}
-    public enum AnimationControlEnum { rotation,position,scale,acceleration,color}
+    public enum AnimationControlEnum { rotation,position,scale,acceleration,color, pitch, volume}
     public enum DirectionEnum { x_r,y_g,z_b}
 
     public static float Remap(this float value, float from1, float to1, float from2, float to2)
