@@ -57,8 +57,8 @@ public class VolumeEffect
 [CreateAssetMenu(fileName = "Output Data SO", menuName = "Output data configuration")]
 public class SOOutputData : ScriptableObject
 {
-    //TODO finish lists handling with AnalogSceneSequencer
     [Header("Output Data")]
+    [Space]
     public List<PositionEffect> positionEffects = new List<PositionEffect>();   
     public List<RotationEffect> rotationEffects = new List<RotationEffect>();
     public List<ScaleEffect> scaleEffects = new List<ScaleEffect>();    

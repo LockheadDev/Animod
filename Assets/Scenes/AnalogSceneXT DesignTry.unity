@@ -5649,6 +5649,26 @@ MonoBehaviour:
     go: {fileID: 1688723051}
     inputData: {fileID: 11400000, guid: a44f295d43a2be040bccb6f1191d6bfe, type: 2}
     outputData: {fileID: 0}
+  - name: Arm Left Rotation X
+    enable: 1
+    go: {fileID: 271485568}
+    inputData: {fileID: 11400000, guid: 736a79bcf7754c842ace7945aeee0657, type: 2}
+    outputData: {fileID: 11400000, guid: 29e19728970a8cc478960801b9e1dd39, type: 2}
+  - name: Arm Left Rotation Y
+    enable: 1
+    go: {fileID: 271485568}
+    inputData: {fileID: 11400000, guid: 38c16fa3346c2f047b1053cde72b9cb6, type: 2}
+    outputData: {fileID: 11400000, guid: 251cdaf4c5bc43d43bd91273b5f3c51c, type: 2}
+  - name: Arm Left Acceleration X
+    enable: 1
+    go: {fileID: 271485568}
+    inputData: {fileID: 11400000, guid: 38c16fa3346c2f047b1053cde72b9cb6, type: 2}
+    outputData: {fileID: 11400000, guid: 251cdaf4c5bc43d43bd91273b5f3c51c, type: 2}
+  - name: Arm Left Acceleration Y
+    enable: 1
+    go: {fileID: 271485568}
+    inputData: {fileID: 11400000, guid: 02f7ad5565d99704da012186aaa3c08f, type: 2}
+    outputData: {fileID: 11400000, guid: 031560031dc2cd44fbcca0e50d01ca75, type: 2}
 --- !u!1 &643414728
 GameObject:
   m_ObjectHideFlags: 0
@@ -6399,7 +6419,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f55f5f67f085f749b95d6e66ff6285d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enConnection: 1
+  enConnection: 0
   port: 42069
   ip: 127.0.0.1
   connectionWD: 0.02
@@ -7562,6 +7582,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2026247102}
   - component: {fileID: 2026247103}
+  - component: {fileID: 2026247104}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -7603,6 +7624,102 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     source: {fileID: 0}
+--- !u!82 &2026247104
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2026247101}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: -2273146209696275378, guid: 7e984f512e89b60468e829489e8883e3, type: 2}
+  m_audioClip: {fileID: 8300000, guid: 85c22685c7f2f244dac698f28609dd10, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &2060483553
 GameObject:
   m_ObjectHideFlags: 0

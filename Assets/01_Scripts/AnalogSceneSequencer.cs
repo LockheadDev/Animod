@@ -132,6 +132,7 @@ public class AnalogSceneSequencer : MonoBehaviour
                 case AnimationControlEnum.position:
                     foreach (PositionEffect effect in slot.outputData.positionEffects)
                     {
+                        print("Que pedo" + effect.Direction.ToString() );
                         SetPosition(slot, value, effect.Direction);
                     }
                     break;
