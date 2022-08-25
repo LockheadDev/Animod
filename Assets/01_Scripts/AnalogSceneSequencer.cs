@@ -118,8 +118,8 @@ public class AnalogSceneSequencer : MonoBehaviour
             AnimationControlEnum.pitch,AnimationControlEnum.color,
             AnimationControlEnum.scale};
 
-        //TODO!! Finish SO Handler
-        foreach(AnimationControlEnum control in controlList)
+        if (!slot.enable) return;
+        foreach (AnimationControlEnum control in controlList)
         {
             switch (control)
             {
@@ -130,56 +130,57 @@ public class AnalogSceneSequencer : MonoBehaviour
                     }
                     break;
                 case AnimationControlEnum.position:
+                    foreach (PositionEffect effect in slot.outputData.positionEffects)
+                    {
+                        SetPosition(slot, value, effect.Direction);
+                    }
                     break;
                 case AnimationControlEnum.scale:
+                    foreach (ScaleEffect effect in slot.outputData.scaleEffects)
+                    {
+                        SetScale(slot, value, effect.Direction);
+                    }
                     break;
                 case AnimationControlEnum.acceleration:
+                    foreach (AccelerationEffect effect in slot.outputData.accelerationEffects)
+                    {
+                        //TODO Implement
+                        //SetAcceleration(slot, value, effect.Direction);
+                    }
                     break;
                 case AnimationControlEnum.color:
+                    foreach (ColorEffect effect in slot.outputData.colorEffects)
+                    {
+                        SetColor(slot, value, effect.color);
+                    }
                     break;
                 case AnimationControlEnum.pitch:
+                    foreach (PitchEffect effect in slot.outputData.pitchEffects)
+                    {
+                        SetPitch(slot, value, effect.channel);
+                    }
                     break;
                 case AnimationControlEnum.volume:
+                    foreach (VolumeEffect effect in slot.outputData.volumeEffects)
+                    {
+                        SetVolume(slot, value, effect.channel);
+                    }
                     break;
                 default:
                     break;
             }
         }
-        if (!slot.enable) return;
-        switch (AnimationControlEnum.rotation)
-        {
-            case AnimationControlEnum.rotation:
-                //SetRotation(slot, value);
-                break;
-            case AnimationControlEnum.position:
-                SetPosition(slot, value);
-                break;
-            case AnimationControlEnum.color:
-                SetColor(slot, value);
-                break;
-            case AnimationControlEnum.scale:
-                SetScale(slot, value);
-                break;
-            case AnimationControlEnum.acceleration:
-                SetAcc(slot, value);
-                break;
-            case AnimationControlEnum.pitch:
-                SetPitch(slot, value);
-                break;
-            case AnimationControlEnum.volume:
-                SetVolume(slot, value);
-                break;
-        }
+       
     }
 
-    private void SetVolume(AnimationSlot slot, float value)
+    private void SetVolume(AnimationSlot slot, float value, AudioChannelEnum channel)
     {
         // Range of pitch goes from 0 to 1f
         //TODO set range
         audioManager.SetAudioVolume("Music",value);
     }
 
-    private void SetPitch(AnimationSlot slot, float value)
+    private void SetPitch(AnimationSlot slot, float value, AudioChannelEnum channel )
     {
 
         // Range of pitch goes from 0.1 to 3f
@@ -193,18 +194,19 @@ public class AnalogSceneSequencer : MonoBehaviour
 
     }
 
-    private void SetScale(AnimationSlot slot, float value)
+    private void SetScale(AnimationSlot slot, float value, DirectionEnum direction)
     {
+        //TODO Split (Right now we controll the absolute magnitude)
         float min = getMinMax(slot.inputData.variable).Item1;
         float max = getMinMax(slot.inputData.variable).Item2;
         float vec_value = Extension.Remap(value, min, max, mappingConfigurations.OutputScaleMap.min, mappingConfigurations.OutputScaleMap.max);
         slot.go.transform.localScale = new Vector3(vec_value, vec_value, vec_value);
     }
-    private void SetColor(AnimationSlot slot, float value)
+    private void SetColor(AnimationSlot slot, float value, ColorEnum color)
     {
         float temp_value = Extension.Remap(value, getMinMax(slot.inputData.variable).Item1, getMinMax(slot.inputData.variable).Item2, 0, 255); //TODO HARDCODED TO RED
         Color clr = slot.go.GetComponentInChildren<MeshRenderer>().material.color;
-        switch (ColorEnum.none)
+        switch (color)
         {
             case ColorEnum.none: return;
 
@@ -228,7 +230,7 @@ public class AnalogSceneSequencer : MonoBehaviour
         }
     }
 
-    private void SetPosition(AnimationSlot slot, float value)
+    private void SetPosition(AnimationSlot slot, float value, DirectionEnum direction)
     {
         
         float temp_value = 0f;
@@ -238,7 +240,7 @@ public class AnalogSceneSequencer : MonoBehaviour
         min = getMinMax(slot.inputData.variable).Item1;
         max = getMinMax(slot.inputData.variable).Item2;
        
-        switch (DirectionEnum.none)
+        switch (direction)
         {
             case DirectionEnum.none: return ;
             case DirectionEnum.x:
