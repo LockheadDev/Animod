@@ -5624,66 +5624,31 @@ MonoBehaviour:
   audioManager: {fileID: 2026247103}
   enLerpPos: 1
   animationSlots:
-  - name: Arm Right Rotation X -> GameObject Rotation X
+  - name: Arm Right Rotation X
     enable: 1
     go: {fileID: 1688723051}
     inputData: {fileID: 11400000, guid: e29f6d2cc1862ca46a50085466901ddb, type: 2}
-    outputData: {fileID: 11400000, guid: 5f9e3d09fccbed04899306d7126615dd, type: 2}
-  - name: Arm Left Rotation X -> GameObject Rotation X
-    enable: 1
-    go: {fileID: 271485568}
-    inputData: {fileID: 11400000, guid: 736a79bcf7754c842ace7945aeee0657, type: 2}
-    outputData: {fileID: 11400000, guid: 5f9e3d09fccbed04899306d7126615dd, type: 2}
-  - name: Arm Right Rotation Y -> GameObject Rotation Y
+    outputData: {fileID: 11400000, guid: 2357591d755936b4b90f287d54cce41b, type: 2}
+  - name: Arm Right Rotation Y
     enable: 1
     go: {fileID: 1688723051}
-    inputData: {fileID: 11400000, guid: ecee592ec632c274bbd92e281b3a76d6, type: 2}
-    outputData: {fileID: 11400000, guid: ed05231f6233c1841bce15539fb0f38d, type: 2}
-  - name: Arm Left Rotation Y -> GameObject Rotation Y
-    enable: 1
-    go: {fileID: 271485568}
-    inputData: {fileID: 11400000, guid: 38c16fa3346c2f047b1053cde72b9cb6, type: 2}
-    outputData: {fileID: 11400000, guid: ed05231f6233c1841bce15539fb0f38d, type: 2}
-  - name: 'Arm Left Acceleration Y-> GameObject Position Y '
-    enable: 1
-    go: {fileID: 271485568}
-    inputData: {fileID: 11400000, guid: 02f7ad5565d99704da012186aaa3c08f, type: 2}
-    outputData: {fileID: 11400000, guid: 3599ce113578eb348bf90e81c880e626, type: 2}
-  - name: Arm Right Acceleration Y -> GameObject Position Y
-    enable: 1
-    go: {fileID: 1688723051}
-    inputData: {fileID: 11400000, guid: 6100b7f75960d924fbd58f6f8107a680, type: 2}
-    outputData: {fileID: 11400000, guid: 3599ce113578eb348bf90e81c880e626, type: 2}
-  - name: Arm Right Acceleration X -> GameObject Position X
+    inputData: {fileID: 11400000, guid: e29f6d2cc1862ca46a50085466901ddb, type: 2}
+    outputData: {fileID: 11400000, guid: 2357591d755936b4b90f287d54cce41b, type: 2}
+  - name: Arm Right Acceleration X
     enable: 1
     go: {fileID: 1688723051}
     inputData: {fileID: 11400000, guid: 21e159df14ba1cf4e98281f9b779c31a, type: 2}
-    outputData: {fileID: 11400000, guid: baeea24d68caccb4a9bc3cd22523ec06, type: 2}
-  - name: Arm Left Acceleration X -> GameObject Position X
-    enable: 1
-    go: {fileID: 271485568}
-    inputData: {fileID: 11400000, guid: 4f2f000e41bfa294eb7f3e7ef45cc34b, type: 2}
-    outputData: {fileID: 11400000, guid: baeea24d68caccb4a9bc3cd22523ec06, type: 2}
-  - name: Arm Left Rotation Y -> GameObject Color R
-    enable: 1
-    go: {fileID: 271485568}
-    inputData: {fileID: 11400000, guid: 38c16fa3346c2f047b1053cde72b9cb6, type: 2}
-    outputData: {fileID: 11400000, guid: 2a9f9c84889510946ab6f253980ad30f, type: 2}
-  - name: Arm Left Rotation X -> GameObject Color G
-    enable: 1
-    go: {fileID: 271485568}
-    inputData: {fileID: 11400000, guid: 736a79bcf7754c842ace7945aeee0657, type: 2}
-    outputData: {fileID: 11400000, guid: 52d7b5d7f0cfdc44e860243a7e56fe4f, type: 2}
-  - name: Arm Right Rotation X -> GameObject Color B
+    outputData: {fileID: 0}
+  - name: Arm Right Acceleration Y
     enable: 1
     go: {fileID: 1688723051}
-    inputData: {fileID: 11400000, guid: e29f6d2cc1862ca46a50085466901ddb, type: 2}
-    outputData: {fileID: 11400000, guid: 52d7b5d7f0cfdc44e860243a7e56fe4f, type: 2}
-  - name: Arm Right Rotation Y -> GameObject Color G
+    inputData: {fileID: 11400000, guid: 6100b7f75960d924fbd58f6f8107a680, type: 2}
+    outputData: {fileID: 0}
+  - name: Arm Right Acceleration Z
     enable: 1
     go: {fileID: 1688723051}
-    inputData: {fileID: 11400000, guid: ecee592ec632c274bbd92e281b3a76d6, type: 2}
-    outputData: {fileID: 11400000, guid: 52d7b5d7f0cfdc44e860243a7e56fe4f, type: 2}
+    inputData: {fileID: 11400000, guid: a44f295d43a2be040bccb6f1191d6bfe, type: 2}
+    outputData: {fileID: 0}
 --- !u!1 &643414728
 GameObject:
   m_ObjectHideFlags: 0

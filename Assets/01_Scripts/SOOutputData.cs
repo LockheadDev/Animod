@@ -7,42 +7,49 @@ using static Extension;
 [System.Serializable]
 public class PositionEffect 
 {
+    [HideInInspector]
     public AnimationControlEnum control = AnimationControlEnum.position;
     public DirectionEnum Direction;
 }
 [System.Serializable]
 public class RotationEffect 
 {
+    [HideInInspector]
     public AnimationControlEnum control = AnimationControlEnum.rotation;
     public DirectionEnum Direction;
 }
 [System.Serializable]
 public class ScaleEffect
 {
+    [HideInInspector]
     public AnimationControlEnum control = AnimationControlEnum.scale;
     public DirectionEnum Direction;
 }
 [System.Serializable]
 public class AccelerationEffect 
 {
+    [HideInInspector]
     public AnimationControlEnum control = AnimationControlEnum.acceleration;
     public DirectionEnum Direction;
 }
 [System.Serializable]
 public class ColorEffect
 {
+    [HideInInspector]
     public AnimationControlEnum control = AnimationControlEnum.color;
     public ColorEnum color;
 }
 [System.Serializable]
 public class PitchEffect
 {
+    [HideInInspector]
     public AnimationControlEnum control = AnimationControlEnum.pitch;
     public AudioChannelEnum channel;
 }
 [System.Serializable]
 public class VolumeEffect
 {
+    [HideInInspector]
     public AnimationControlEnum control = AnimationControlEnum.volume;
     public AudioChannelEnum channel;
 }
