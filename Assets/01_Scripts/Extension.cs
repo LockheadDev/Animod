@@ -1,6 +1,6 @@
 public static class Extension
 {
-    public enum BodyPartEnum {armRight,armLeft,center,footRight,footLeft}
+    public enum BodyPartEnum {armRight,armLeft,center,legRight,legLeft}
     public enum DataReqEnum {rotX,rotY,accX,accY,accZ}
     public enum AnimationControlEnum { rotation,position,scale,acceleration,color, pitch, volume}
     public enum DirectionEnum { none,x,y,z}

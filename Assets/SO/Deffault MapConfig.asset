@@ -48,3 +48,9 @@ MonoBehaviour:
   OutputScaleMap:
     min: 1
     max: 5
+  OutputVolumeMap:
+    min: 0
+    max: 1
+  OutputPitchMap:
+    min: 0
+    max: 0

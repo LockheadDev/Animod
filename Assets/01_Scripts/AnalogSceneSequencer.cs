@@ -24,7 +24,7 @@ public class AnalogSceneSequencer : MonoBehaviour
     #endregion
     [Space]
     [SerializeField]
-    private SOMapConfig mappingConfigurations;
+    private SOMapConfig mapConfig;
     [Space]
     [SerializeField]
     private AudioManager audioManager;
@@ -97,14 +97,13 @@ public class AnalogSceneSequencer : MonoBehaviour
     }
     private void UpdateAnimation()
     {
-        
         foreach(BodyDataPacket packet in udpanalogcomm.bodyPackets)
         {
-            foreach (AnimationSlot animslot in animationSlots)
+            foreach (AnimationSlot slot in animationSlots)
             {
-                if(packet.bodyPart==animslot.inputData.bodyPart)
+                if(packet.bodyPart==slot.inputData.bodyPart)
                 {
-                    UpdateAnimationSlot(animslot,packet.GetValueByEnum(animslot.inputData.variable));
+                    UpdateAnimationSlot(slot,packet.GetValueByEnum(slot.inputData.variable));
                 }
             }
         }
@@ -112,87 +111,67 @@ public class AnalogSceneSequencer : MonoBehaviour
 
     private void UpdateAnimationSlot(AnimationSlot slot,float value)
     {
-        AnimationControlEnum[] controlList =
-            {AnimationControlEnum.position,AnimationControlEnum.acceleration,
-            AnimationControlEnum.rotation,AnimationControlEnum.volume,
-            AnimationControlEnum.pitch,AnimationControlEnum.color,
-            AnimationControlEnum.scale};
-
+        //ENABLE LATCH
         if (!slot.enable) return;
-        foreach (AnimationControlEnum control in controlList)
+        //CHECK IF CONFIGURATION OF INPUTS ITS COMPLETE
+        if (slot.outputData==null || slot.inputData == null || slot.go == null)
         {
-            switch (control)
-            {
-                case AnimationControlEnum.rotation:
-                    foreach(RotationEffect posEffect in slot.outputData.rotationEffects)
-                    {
-                        SetRotation(slot, value,posEffect.Direction);
-                    }
-                    break;
-                case AnimationControlEnum.position:
-                    foreach (PositionEffect effect in slot.outputData.positionEffects)
-                    {
-                        print("Que pedo" + effect.Direction.ToString() );
-                        SetPosition(slot, value, effect.Direction);
-                    }
-                    break;
-                case AnimationControlEnum.scale:
-                    foreach (ScaleEffect effect in slot.outputData.scaleEffects)
-                    {
-                        SetScale(slot, value, effect.Direction);
-                    }
-                    break;
-                case AnimationControlEnum.acceleration:
-                    foreach (AccelerationEffect effect in slot.outputData.accelerationEffects)
-                    {
-                        //TODO Implement
-                        //SetAcceleration(slot, value, effect.Direction);
-                    }
-                    break;
-                case AnimationControlEnum.color:
-                    foreach (ColorEffect effect in slot.outputData.colorEffects)
-                    {
-                        SetColor(slot, value, effect.color);
-                    }
-                    break;
-                case AnimationControlEnum.pitch:
-                    foreach (PitchEffect effect in slot.outputData.pitchEffects)
-                    {
-                        SetPitch(slot, value, effect.channel);
-                    }
-                    break;
-                case AnimationControlEnum.volume:
-                    foreach (VolumeEffect effect in slot.outputData.volumeEffects)
-                    {
-                        SetVolume(slot, value, effect.channel);
-                    }
-                    break;
-                default:
-                    break;
-            }
+            Debug.LogError("!! - SLOT: " + slot.name + " needs to be fully configured!");
+            return;
         }
-       
+        //CHECK AND UPDATE ALL CONFIGURED ANIMATIONS
+        foreach (RotationEffect posEffect in slot.outputData.rotationEffects)
+        {
+            SetRotation(slot, value, posEffect.Direction);
+        }
+
+        foreach (PositionEffect effect in slot.outputData.positionEffects)
+        {
+            SetPosition(slot, value, effect.Direction);
+        }
+
+        foreach (ScaleEffect effect in slot.outputData.scaleEffects)
+        {
+            SetScale(slot, value, effect.Direction);
+        }
+        foreach (AccelerationEffect effect in slot.outputData.accelerationEffects)
+        {
+            //TODO Implement
+            //SetAcceleration(slot, value, effect.Direction);
+        }
+        foreach (ColorEffect effect in slot.outputData.colorEffects)
+        {
+            SetColor(slot, value, effect.color);
+        }
+        foreach (PitchEffect effect in slot.outputData.pitchEffects)
+        {
+            SetPitch(slot, value, effect.channel);
+        }
+        foreach (VolumeEffect effect in slot.outputData.volumeEffects)
+        {
+            SetVolume(slot, value, effect.channel);
+        }
     }
 
     private void SetVolume(AnimationSlot slot, float value, AudioChannelEnum channel)
     {
-        // Range of pitch goes from 0 to 1f
-        //TODO set range
+        float min = getMinMax(slot.inputData.variable).Item1;
+        float max = getMinMax(slot.inputData.variable).Item2;
+        value = Extension.Remap(value, min, max, mapConfig.OutputVolumeMap.min, mapConfig.OutputVolumeMap.max);
         audioManager.SetAudioVolume("Music",value);
     }
 
     private void SetPitch(AnimationSlot slot, float value, AudioChannelEnum channel )
     {
-
-        // Range of pitch goes from 0.1 to 3f
-        // TODO change ranges
+        float min = getMinMax(slot.inputData.variable).Item1;
+        float max = getMinMax(slot.inputData.variable).Item2;
+        value = Extension.Remap(value, min, max, mapConfig.OutputPitchMap.min, mapConfig.OutputPitchMap.max);
         audioManager.SetAudioPitch("Music", value);
     }
     private void SetAcc(AnimationSlot slot, float value)
     {
         if(value>Math.Abs(2f))
         slot.go.GetComponent<Rigidbody>().AddForce(new Vector3(value * 10, 0, 0),ForceMode.Impulse);
-
     }
 
     private void SetScale(AnimationSlot slot, float value, DirectionEnum direction)
@@ -200,7 +179,7 @@ public class AnalogSceneSequencer : MonoBehaviour
         //TODO Split (Right now we controll the absolute magnitude)
         float min = getMinMax(slot.inputData.variable).Item1;
         float max = getMinMax(slot.inputData.variable).Item2;
-        float vec_value = Extension.Remap(value, min, max, mappingConfigurations.OutputScaleMap.min, mappingConfigurations.OutputScaleMap.max);
+        float vec_value = Extension.Remap(value, min, max, mapConfig.OutputScaleMap.min, mapConfig.OutputScaleMap.max);
         slot.go.transform.localScale = new Vector3(vec_value, vec_value, vec_value);
     }
     private void SetColor(AnimationSlot slot, float value, ColorEnum color)
@@ -245,15 +224,15 @@ public class AnalogSceneSequencer : MonoBehaviour
         {
             case DirectionEnum.none: return ;
             case DirectionEnum.x:
-                temp_value = Extension.Remap(value,min,max, mappingConfigurations.OutputPosMapX.min, mappingConfigurations.OutputPosMapX.max);
+                temp_value = Extension.Remap(value,min,max, mapConfig.OutputPosMapX.min, mapConfig.OutputPosMapX.max);
                 temp_vec3.x = -temp_value; //INVERTED WATCH OUT
                 break;
             case DirectionEnum.y:
-                temp_value = Extension.Remap(value, min, max, mappingConfigurations.OutputPosMapY.min, mappingConfigurations.OutputPosMapY.max);
+                temp_value = Extension.Remap(value, min, max, mapConfig.OutputPosMapY.min, mapConfig.OutputPosMapY.max);
                 temp_vec3.y = temp_value;
                 break;
             case DirectionEnum.z:
-                temp_value = Extension.Remap(value, min, max, mappingConfigurations.OutputPosMapZ.min, mappingConfigurations.OutputPosMapZ.max);
+                temp_value = Extension.Remap(value, min, max, mapConfig.OutputPosMapZ.min, mapConfig.OutputPosMapZ.max);
                 temp_vec3.z = temp_value;
                 break;
         }
@@ -276,15 +255,15 @@ public class AnalogSceneSequencer : MonoBehaviour
         {
             case DirectionEnum.none: return;
             case DirectionEnum.x:
-                temp_val = Extension.Remap(value, min, max, mappingConfigurations.OutputRotMapX.min, mappingConfigurations.OutputRotMapX.max);
+                temp_val = Extension.Remap(value, min, max, mapConfig.OutputRotMapX.min, mapConfig.OutputRotMapX.max);
                 tiltX = temp_val;
                 break;
             case DirectionEnum.y:
-                temp_val = Extension.Remap(value, min, max, mappingConfigurations.OutputRotMapY.min, mappingConfigurations.OutputRotMapY.max);
+                temp_val = Extension.Remap(value, min, max, mapConfig.OutputRotMapY.min, mapConfig.OutputRotMapY.max);
                 tiltY = temp_val;
                 break;
             case DirectionEnum.z:
-                temp_val = Extension.Remap(value, min, max, mappingConfigurations.OutputRotMapZ.min, mappingConfigurations.OutputRotMapZ.max);
+                temp_val = Extension.Remap(value, min, max, mapConfig.OutputRotMapZ.min, mapConfig.OutputRotMapZ.max);
                 tiltZ = temp_val;
                 break;
         }
@@ -297,24 +276,24 @@ public class AnalogSceneSequencer : MonoBehaviour
         switch (dataReq)
         {
             case DataReqEnum.rotX:
-                min = mappingConfigurations.InputRotMapX.min;
-                max = mappingConfigurations.InputRotMapX.max;
+                min = mapConfig.InputRotMapX.min;
+                max = mapConfig.InputRotMapX.max;
                 break;
             case DataReqEnum.rotY:
-                max = mappingConfigurations.InputRotMapY.max;
-                min = mappingConfigurations.InputRotMapY.min;
+                max = mapConfig.InputRotMapY.max;
+                min = mapConfig.InputRotMapY.min;
                 break;
             case DataReqEnum.accX:
-                min = mappingConfigurations.InputAccMapX.min;
-                max = mappingConfigurations.InputAccMapX.max;
+                min = mapConfig.InputAccMapX.min;
+                max = mapConfig.InputAccMapX.max;
                 break;
             case DataReqEnum.accY:
-                min = mappingConfigurations.InputAccMapY.min;
-                max = mappingConfigurations.InputAccMapY.max;
+                min = mapConfig.InputAccMapY.min;
+                max = mapConfig.InputAccMapY.max;
                 break;
             case DataReqEnum.accZ:
-                min = mappingConfigurations.InputAccMapZ.min;
-                max = mappingConfigurations.InputAccMapZ.max;
+                min = mapConfig.InputAccMapZ.min;
+                max = mapConfig.InputAccMapZ.max;
                 break;
             
             default:

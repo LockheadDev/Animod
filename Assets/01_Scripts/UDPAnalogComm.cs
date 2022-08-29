@@ -89,22 +89,6 @@ public class UDPAnalogComm : MonoBehaviour
         if (enConnection) StartConnection();                        //Start connection
         timerWD = connectionWD;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //KEY: T -> Finish connection
-        if (Input.GetKeyDown(KeyCode.T)) StopConnection();
-        connectionWD -= Time.deltaTime;
-        if (connectionWD<0)
-        {
-            connectionWD = timerWD;
-            if (recievedData == false)
-            {
-                RequestAllParts();
-            }
-        }
-    }
     private void RequestServer()
     {
         while (true)
@@ -195,10 +179,10 @@ public class UDPAnalogComm : MonoBehaviour
             case BodyPartEnum.center:
                 str += "c";
                 break;
-            case BodyPartEnum.footRight:
+            case BodyPartEnum.legRight:
                 str += "fr";
                 break;
-            case BodyPartEnum.footLeft:
+            case BodyPartEnum.legLeft:
                 str += "fl";
                 break;
         }

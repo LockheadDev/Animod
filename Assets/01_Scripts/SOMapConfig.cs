@@ -40,4 +40,12 @@ public class SOMapConfig : ScriptableObject
     [Space]
     [Header("MAP scale output - float")]
     public MapVal OutputScaleMap;
+
+    [Space]
+    [Header ("MAP volume output - float")]
+    public MapVal OutputVolumeMap;
+
+    [Space]
+    [Header("MAP pitch output - float")]
+    public MapVal OutputPitchMap;
 }
