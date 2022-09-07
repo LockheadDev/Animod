@@ -13,4 +13,6 @@ public class SoundBase
     public float pitch;
     [HideInInspector]
     public AudioSource source;
+    [Range (-1f, 1f)]
+    public float pan;
 }

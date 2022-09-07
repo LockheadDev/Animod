@@ -76,7 +76,7 @@ public class UDPAnalogComm : MonoBehaviour
     public List<DataReqEnum> dataReqSequence = new List<DataReqEnum>();
     public List<BodyDataPacket> bodyPackets = new List<BodyDataPacket>();
 
-    private UdpClient UDPclient = new UdpClient();
+    private UdpClient UDPclient;
     private IPEndPoint ep;
     private string recievedString;
 
@@ -89,13 +89,24 @@ public class UDPAnalogComm : MonoBehaviour
         if (enConnection) StartConnection();                        //Start connection
         timerWD = connectionWD;
     }
+    private void OnDestroy()
+    {
+        StopConnection();
+    }
     private void RequestServer()
     {
-        while (true)
+        try
         {
-            recievedData=false;
-            print("Sending request data...");
-            RequestAllParts();
+            while (true)
+            {
+                recievedData = false;
+                print("Sending request data...");
+                RequestAllParts();
+            }
+        }
+        catch(ThreadAbortException e)
+        {
+            thread.Suspend();
         }
     }
     private void RequestAllParts()
@@ -111,6 +122,7 @@ public class UDPAnalogComm : MonoBehaviour
     }
     public void StartConnection()
     {
+        UDPclient = new UdpClient();
         print("Starting connection with IP: " + ip+ " and PORT: " + port.ToString());
         thread = new Thread(new ThreadStart(RequestServer));
         UDPclient.Connect(ep);
@@ -135,7 +147,6 @@ public class UDPAnalogComm : MonoBehaviour
         try
         {
             recievedString = Encoding.ASCII.GetString(UDPclient.Receive(ref ep));
-            print("No string recieved");
         }
         catch(Exception ex)
         {
@@ -177,7 +188,7 @@ public class UDPAnalogComm : MonoBehaviour
                 str += "al";
                 break;
             case BodyPartEnum.center:
-                str += "c";
+                str += "cc";
                 break;
             case BodyPartEnum.legRight:
                 str += "fr";

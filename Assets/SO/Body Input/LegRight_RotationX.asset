@@ -12,7 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f32d923af8ffae744b3b07f2c7d9e4c3, type: 3}
   m_Name: LegRight_RotationX
   m_EditorClassIdentifier: 
-  bodyPart: 0
-  InputRotMapY:
-    min: 0
-    max: 0
+  bodyPart: 3
+  variable: 0

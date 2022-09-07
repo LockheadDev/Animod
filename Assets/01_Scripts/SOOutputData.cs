@@ -19,6 +19,13 @@ public class RotationEffect
     public DirectionEnum Direction;
 }
 [System.Serializable]
+public class PanEffect
+{
+    [HideInInspector]
+    public AnimationControlEnum control = AnimationControlEnum.pan;
+    public AudioChannelEnum channel;
+}
+[System.Serializable]
 public class ScaleEffect
 {
     [HideInInspector]
@@ -66,4 +73,6 @@ public class SOOutputData : ScriptableObject
     public List<ColorEffect> colorEffects = new List<ColorEffect>();
     public List<PitchEffect> pitchEffects = new List<PitchEffect>();
     public List<VolumeEffect> volumeEffects = new List<VolumeEffect>();
+    public List<PanEffect>panEffects= new List<PanEffect>();
+
 }

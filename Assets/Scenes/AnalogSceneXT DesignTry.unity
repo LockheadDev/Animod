@@ -10517,8 +10517,8 @@ MonoBehaviour:
   - name: Arm Right Rotation Y
     enable: 1
     go: {fileID: 1688723051}
-    inputData: {fileID: 11400000, guid: e29f6d2cc1862ca46a50085466901ddb, type: 2}
-    outputData: {fileID: 11400000, guid: 2357591d755936b4b90f287d54cce41b, type: 2}
+    inputData: {fileID: 11400000, guid: ecee592ec632c274bbd92e281b3a76d6, type: 2}
+    outputData: {fileID: 11400000, guid: dbd0673ca05751648b58084c16fa6b66, type: 2}
   - name: Arm Right Acceleration X
     enable: 1
     go: {fileID: 1688723051}
@@ -10564,11 +10564,21 @@ MonoBehaviour:
     go: {fileID: 2088270524}
     inputData: {fileID: 11400000, guid: 25822070436395e4c8389dc501d4d6da, type: 2}
     outputData: {fileID: 11400000, guid: e8bce5cbc57a7894db241dd552c5faf6, type: 2}
+  - name: Leg Left Rotation Y
+    enable: 1
+    go: {fileID: 2088270524}
+    inputData: {fileID: 11400000, guid: c5c5164479baa534d954c5f378b1ed9f, type: 2}
+    outputData: {fileID: 11400000, guid: c68c884364083374787cbff4c5d4f2b9, type: 2}
   - name: Leg Right Rotation X
     enable: 1
     go: {fileID: 1183153558}
     inputData: {fileID: 11400000, guid: 321f72ce2c1ba5f44a22f346b0add4be, type: 2}
     outputData: {fileID: 11400000, guid: 6939ba164956abd4380524474c93513f, type: 2}
+  - name: Leg Right Rotation Y
+    enable: 1
+    go: {fileID: 1183153558}
+    inputData: {fileID: 11400000, guid: bb9feea6f5ffb134b892d8d9e91e402e, type: 2}
+    outputData: {fileID: 11400000, guid: ba66f9e8fad25154ea31dd4cddea36ab, type: 2}
   - name: Center Rotation X
     enable: 1
     go: {fileID: 1605833406}
@@ -25854,7 +25864,7 @@ MonoBehaviour:
   port: 42069
   ip: 127.0.0.1
   connectionWD: 0.02
-  bodyPartSequence: 0000000001000000020000000300000004000000
+  bodyPartSequence: 0100000002000000030000000400000000000000
   dataReqSequence: 0000000001000000030000000200000004000000
   bodyPackets:
   - name: Arm Right
@@ -31148,7 +31158,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1465939601}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.5, z: -8}
+  m_LocalPosition: {x: 0, y: -2.5, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1507701575}

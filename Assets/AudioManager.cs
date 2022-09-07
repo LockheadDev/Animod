@@ -17,7 +17,7 @@ public class AudioManager : MonoBehaviour
             s.source.pitch = s.pitch;   
             s.source.loop = s.loop;
             s.source.playOnAwake = s.playOnAwake;
-            
+            s.source.panStereo = s.pan;
         }
     }
     private void Start()
@@ -49,6 +49,16 @@ public class AudioManager : MonoBehaviour
             if (s.name.ToLower() == name.ToLower())
             {
                 s.source.pitch = pitch;
+            }
+        }
+    }
+    public void SetAudioPan(string name, float pan)
+    {
+        foreach (SoundBase s in sounds)
+        {
+            if (s.name.ToLower() == name.ToLower())
+            {
+                s.source.panStereo = pan;
             }
         }
     }

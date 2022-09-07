@@ -48,4 +48,8 @@ public class SOMapConfig : ScriptableObject
     [Space]
     [Header("MAP pitch output - float")]
     public MapVal OutputPitchMap;
+
+    [Space]
+    [Header("MAP pan output - float")]
+    public MapVal OutputPanMap;
 }

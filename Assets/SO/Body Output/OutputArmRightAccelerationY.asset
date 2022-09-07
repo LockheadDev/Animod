@@ -12,16 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 181b6b3d8d036e8488de9644f335eda1, type: 3}
   m_Name: OutputArmRightAccelerationY
   m_EditorClassIdentifier: 
-  positionEffects:
-  - control: 0
-    Direction: 0
-  rotationEffects:
-  - control: 0
-    Direction: 1
+  positionEffects: []
+  rotationEffects: []
   scaleEffects: []
   accelerationEffects: []
-  colorEffects:
-  - control: 0
-    color: 3
+  colorEffects: []
   pitchEffects: []
   volumeEffects: []

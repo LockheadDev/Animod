@@ -151,6 +151,10 @@ public class AnalogSceneSequencer : MonoBehaviour
         {
             SetVolume(slot, value, effect.channel);
         }
+        foreach (PanEffect effect in slot.outputData.panEffects)
+        {
+            SetPan(slot, value, effect.channel);
+        }
     }
 
     private void SetVolume(AnimationSlot slot, float value, AudioChannelEnum channel)
@@ -160,7 +164,13 @@ public class AnalogSceneSequencer : MonoBehaviour
         value = Extension.Remap(value, min, max, mapConfig.OutputVolumeMap.min, mapConfig.OutputVolumeMap.max);
         audioManager.SetAudioVolume("Music",value);
     }
-
+    private void SetPan(AnimationSlot slot, float value, AudioChannelEnum channel)
+    {
+        float min = getMinMax(slot.inputData.variable).Item1;
+        float max = getMinMax(slot.inputData.variable).Item2;
+        value = Extension.Remap(value, min, max, mapConfig.OutputPanMap.min, mapConfig.OutputPanMap.max);
+        audioManager.SetAudioPan("Music",value);
+    }
     private void SetPitch(AnimationSlot slot, float value, AudioChannelEnum channel )
     {
         float min = getMinMax(slot.inputData.variable).Item1;

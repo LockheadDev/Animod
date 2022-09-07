@@ -20,6 +20,6 @@ MonoBehaviour:
   accelerationEffects: []
   colorEffects:
   - control: 0
-    color: 3
+    color: 2
   pitchEffects: []
   volumeEffects: []
