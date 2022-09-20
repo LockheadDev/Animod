@@ -52,4 +52,10 @@ public class SOMapConfig : ScriptableObject
     [Space]
     [Header("MAP pan output - float")]
     public MapVal OutputPanMap;
+
+    [Space]
+    [Header("MAP LPF output - float")]
+    public MapVal OutputLPFmap;
 }
+
+

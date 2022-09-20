@@ -5,7 +5,11 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
 
+    [SerializeField]
+    private AudioLowPassFilter audioLPF;
     public List<SoundBase> sounds = new List<SoundBase>();
+
+
 
     private void Awake()
     {
@@ -29,6 +33,10 @@ public class AudioManager : MonoBehaviour
             s.source.enabled = true;
 
         }
+    }
+    public void SetlpfValues(float value)
+    {
+        audioLPF.cutoffFrequency = value;
     }
 
     public void SetAudioVolume(string name, float volume)

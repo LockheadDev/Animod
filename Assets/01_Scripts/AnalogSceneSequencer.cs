@@ -69,6 +69,8 @@ public class AnalogSceneSequencer : MonoBehaviour
     //Interface
     [SerializeField]
     public UDPAnalogComm udpanalogcomm { get; set; }
+
+
     //Create Singleton
     public static AnalogSceneSequencer Instance { get; private set; }
 
@@ -155,8 +157,19 @@ public class AnalogSceneSequencer : MonoBehaviour
         {
             SetPan(slot, value, effect.channel);
         }
-    }
+        foreach (LPFEffect effect in slot.outputData.lpfEffects)
+        {
+            SetLPF(slot, value, effect.channel);
+        }
 
+    }
+    private void SetLPF(AnimationSlot slot, float value, AudioChannelEnum channel)
+    {
+        float min = getMinMax(slot.inputData.variable).Item1;
+        float max = getMinMax(slot.inputData.variable).Item2;
+        value = Extension.Remap(value, min, max, mapConfig.OutputLPFmap.min, mapConfig.OutputLPFmap.max);
+        audioManager.SetlpfValues(value);
+    }
     private void SetVolume(AnimationSlot slot, float value, AudioChannelEnum channel)
     {
         float min = getMinMax(slot.inputData.variable).Item1;

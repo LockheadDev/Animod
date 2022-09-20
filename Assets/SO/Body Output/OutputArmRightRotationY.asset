@@ -26,3 +26,4 @@ MonoBehaviour:
   panEffects:
   - control: 0
     channel: 1
+  lpfEffects: []

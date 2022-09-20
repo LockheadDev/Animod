@@ -57,3 +57,6 @@ MonoBehaviour:
   OutputPanMap:
     min: -1
     max: 1
+  OutputLPFmap:
+    min: -1000
+    max: 22000

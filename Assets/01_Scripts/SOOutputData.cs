@@ -60,6 +60,14 @@ public class VolumeEffect
     public AnimationControlEnum control = AnimationControlEnum.volume;
     public AudioChannelEnum channel;
 }
+[System.Serializable]
+public class LPFEffect
+{
+    [HideInInspector]
+    public AnimationControlEnum control = AnimationControlEnum.LPF;
+    public AudioChannelEnum channel;
+}
+
 
 [CreateAssetMenu(fileName = "Output Data SO", menuName = "Output data configuration")]
 public class SOOutputData : ScriptableObject
@@ -74,5 +82,6 @@ public class SOOutputData : ScriptableObject
     public List<PitchEffect> pitchEffects = new List<PitchEffect>();
     public List<VolumeEffect> volumeEffects = new List<VolumeEffect>();
     public List<PanEffect>panEffects= new List<PanEffect>();
+    public List<LPFEffect> lpfEffects = new List<LPFEffect>();
 
 }
