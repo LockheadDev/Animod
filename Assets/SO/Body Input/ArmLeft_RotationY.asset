@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: ArmLeft_RotationY
   m_EditorClassIdentifier: 
   bodyPart: 1
-  variable: 0
+  variable: 1

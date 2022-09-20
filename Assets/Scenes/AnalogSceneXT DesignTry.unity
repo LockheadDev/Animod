@@ -10547,8 +10547,8 @@ MonoBehaviour:
   - name: Arm Left Acceleration X
     enable: 1
     go: {fileID: 271485568}
-    inputData: {fileID: 11400000, guid: 38c16fa3346c2f047b1053cde72b9cb6, type: 2}
-    outputData: {fileID: 11400000, guid: 251cdaf4c5bc43d43bd91273b5f3c51c, type: 2}
+    inputData: {fileID: 11400000, guid: 02f7ad5565d99704da012186aaa3c08f, type: 2}
+    outputData: {fileID: 11400000, guid: da60cb89171ce3647aa86a5f0c2dab98, type: 2}
   - name: Arm Left Acceleration Y
     enable: 1
     go: {fileID: 271485568}
@@ -10557,7 +10557,7 @@ MonoBehaviour:
   - name: Arm Left Acceleration Z
     enable: 1
     go: {fileID: 271485568}
-    inputData: {fileID: 11400000, guid: 02f7ad5565d99704da012186aaa3c08f, type: 2}
+    inputData: {fileID: 11400000, guid: cb4bce2dc8d38a7488e00ffdf18a6127, type: 2}
     outputData: {fileID: 11400000, guid: ca0997e30c004ce43b74f19409b5eedf, type: 2}
   - name: Leg Left Rotation X
     enable: 1

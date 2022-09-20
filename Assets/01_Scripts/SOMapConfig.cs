@@ -12,6 +12,7 @@ public struct MapVal
 public class SOMapConfig : ScriptableObject
 {
     [Space]
+    [Header("INPUT")]
     [Header("MAP rotation input - deg")]
     //Degree mapping values
     public MapVal InputRotMapX;
@@ -24,6 +25,7 @@ public class SOMapConfig : ScriptableObject
     public MapVal InputAccMapZ;
 
     [Space]
+    [Header("OUTPUT")]
     [Header("MAP position output - float")]
     //World space mapping values
     public MapVal OutputPosMapX;
@@ -36,6 +38,10 @@ public class SOMapConfig : ScriptableObject
     public MapVal OutputRotMapX;
     public MapVal OutputRotMapY;
     public MapVal OutputRotMapZ;
+
+    [Space]
+    [Header("MAP color output - float")]
+    public MapVal OutputColorRange;
 
     [Space]
     [Header("MAP scale output - float")]

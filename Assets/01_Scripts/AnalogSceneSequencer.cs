@@ -143,7 +143,8 @@ public class AnalogSceneSequencer : MonoBehaviour
         }
         foreach (ColorEffect effect in slot.outputData.colorEffects)
         {
-            SetColor(slot, value, effect.color);
+
+            SetColor(slot, value, effect.colorGradient);
         }
         foreach (PitchEffect effect in slot.outputData.pitchEffects)
         {
@@ -205,10 +206,25 @@ public class AnalogSceneSequencer : MonoBehaviour
         float vec_value = Extension.Remap(value, min, max, mapConfig.OutputScaleMap.min, mapConfig.OutputScaleMap.max);
         slot.go.transform.localScale = new Vector3(vec_value, vec_value, vec_value);
     }
-    private void SetColor(AnimationSlot slot, float value, ColorEnum color)
+    private void SetColor(AnimationSlot slot, float value, Gradient gradient)
     {
-        float temp_value = Extension.Remap(value, getMinMax(slot.inputData.variable).Item1, getMinMax(slot.inputData.variable).Item2, 0, 255); //TODO HARDCODED TO RED
-        Color clr = slot.go.GetComponentInChildren<MeshRenderer>().material.color;
+        
+
+        float temp_value = Extension.Remap(value, getMinMax(slot.inputData.variable).Item1, getMinMax(slot.inputData.variable).Item2,mapConfig.OutputColorRange.min, mapConfig.OutputColorRange.max); //TODO HARDCODED TO RED
+        Color clr = gradient.Evaluate(temp_value);
+        
+        slot.go.GetComponentInChildren<MeshRenderer>().material.color=clr;
+
+        List<ParticleSystem> ps = slot.go.GetComponentsInChildren<ParticleSystem>().ToList();
+        foreach (ParticleSystem item in ps)
+        {
+            ParticleSystem.MainModule psMain = item.main;
+
+            psMain.startColor = clr;
+        }
+        
+
+        /*Color clr = slot.go.GetComponentInChildren<MeshRenderer>().material.color;
         switch (color)
         {
             case ColorEnum.none: return;
@@ -224,13 +240,7 @@ public class AnalogSceneSequencer : MonoBehaviour
                 break;
         }
         slot.go.GetComponentInChildren<MeshRenderer>().material.color = clr;
-        List<ParticleSystem> ps = slot.go.GetComponentsInChildren<ParticleSystem>().ToList();
-        foreach (ParticleSystem item in ps)
-        {
-            ParticleSystem.MainModule psMain = item.main;
-
-            psMain.startColor = clr;
-        }
+        */
     }
 
     private void SetPosition(AnimationSlot slot, float value, DirectionEnum direction)

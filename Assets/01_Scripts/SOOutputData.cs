@@ -44,7 +44,7 @@ public class ColorEffect
 {
     [HideInInspector]
     public AnimationControlEnum control = AnimationControlEnum.color;
-    public ColorEnum color;
+    public Gradient colorGradient;
 }
 [System.Serializable]
 public class PitchEffect
