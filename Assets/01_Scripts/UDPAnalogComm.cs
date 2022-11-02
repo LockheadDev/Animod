@@ -69,6 +69,7 @@ public class UDPAnalogComm : MonoBehaviour
     private float timerWD;
     private bool recievedData = false;
     private float temp_input;
+    private bool endConnection = false;
 
     [Space]
     [Header("Data management")]
@@ -95,19 +96,14 @@ public class UDPAnalogComm : MonoBehaviour
     }
     private void RequestServer()
     {
-        try
-        {
-            while (true)
-            {
+            while (!endConnection)
+            {            
                 recievedData = false;
                 print("Sending request data...");
                 RequestAllParts();
             }
-        }
-        catch(ThreadAbortException e)
-        {
-            thread.Suspend();
-        }
+            thread.Abort();
+
     }
     private void RequestAllParts()
     {
@@ -131,8 +127,8 @@ public class UDPAnalogComm : MonoBehaviour
     public void StopConnection()
     {
         print("Stopping connection with IP: " + ip + " and PORT: " + port.ToString());
+        endConnection = true;
         UDPclient.Close();
-        thread.Abort();
     }
     private void sendRequestData(UdpClient client, string str)
     {
