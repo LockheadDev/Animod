@@ -9,6 +9,7 @@ using System.Collections.Generic;
 
 public class UDPAnalogComm : MonoBehaviour
 {
+    public static UDPAnalogComm Instance { get; private set; }
     //TODO Customize each packet data if not interested in any of the input values
     #region Classes and structs
     [System.Serializable]
@@ -84,18 +85,28 @@ public class UDPAnalogComm : MonoBehaviour
     //UDP Thread
     private Thread thread;
 
+    private void Awake()
+    {
+
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+        DontDestroyOnLoad(this);
+    }
     void Start()
     {
         ep = new IPEndPoint(IPAddress.Parse(ip), port);
         if (enConnection) StartConnection();                        //Start connection
         timerWD = connectionWD;
     }
-    private void OnDestroy()
-    {
-        StopConnection();
-    }
     private void RequestServer()
     {
+        
             while (!endConnection)
             {            
                 recievedData = false;
@@ -118,6 +129,7 @@ public class UDPAnalogComm : MonoBehaviour
     }
     public void StartConnection()
     {
+        endConnection = false;
         UDPclient = new UdpClient();
         print("Starting connection with IP: " + ip+ " and PORT: " + port.ToString());
         thread = new Thread(new ThreadStart(RequestServer));
@@ -138,7 +150,7 @@ public class UDPAnalogComm : MonoBehaviour
 
     private void SendRecieveData(BodyPartEnum bodyPart, DataReqEnum dataReq)
     {
-        
+        if (endConnection) return;
         sendRequestData(UDPclient, GetRequestString(bodyPart,dataReq));
         try
         {

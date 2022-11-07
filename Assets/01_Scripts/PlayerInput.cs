@@ -16,10 +16,14 @@ public class PlayerInput : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape)) toggleMenu();
+        if (Input.GetKeyDown(KeyCode.Alpha1)) SceneChanger.Instance.LoadScene(1);
+        if (Input.GetKeyDown(KeyCode.Alpha2)) SceneChanger.Instance.LoadScene(2);
+
     }
     
     void toggleMenu()
     {
+        
         menuEnabled = !menuEnabled;
         Canvas.SetActive(menuEnabled);
     }
