@@ -18,8 +18,8 @@ MonoBehaviour:
     Direction: 1
   scaleEffects: []
   accelerationEffects: []
-  colorEffects:
-  - control: 0
-    color: 2
+  colorEffects: []
   pitchEffects: []
   volumeEffects: []
+  panEffects: []
+  lpfEffects: []

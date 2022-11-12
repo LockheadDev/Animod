@@ -12,9 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 181b6b3d8d036e8488de9644f335eda1, type: 3}
   m_Name: OutputArmLeftRotationX
   m_EditorClassIdentifier: 
-  positionEffects:
-  - control: 0
-    Direction: 0
+  positionEffects: []
   rotationEffects:
   - control: 0
     Direction: 1

@@ -15,7 +15,7 @@ MonoBehaviour:
   positionEffects: []
   rotationEffects:
   - control: 0
-    Direction: 1
+    Direction: 2
   scaleEffects: []
   accelerationEffects: []
   colorEffects:
