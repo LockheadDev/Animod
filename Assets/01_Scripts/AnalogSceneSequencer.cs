@@ -245,6 +245,7 @@ public class AnalogSceneSequencer : MonoBehaviour
 
     private void SetPosition(AnimationSlot slot, float value, DirectionEnum direction)
     {
+        print("setting position");
         
         float temp_value = 0f;
         float min=0f, max = 0f;
@@ -258,7 +259,7 @@ public class AnalogSceneSequencer : MonoBehaviour
             case DirectionEnum.none: return ;
             case DirectionEnum.x:
                 temp_value = Extension.Remap(value,min,max, mapConfig.OutputPosMapX.min, mapConfig.OutputPosMapX.max);
-                temp_vec3.x = -temp_value; //INVERTED WATCH OUT
+                temp_vec3.x = temp_value; //INVERTED WATCH OUT
                 break;
             case DirectionEnum.y:
                 temp_value = Extension.Remap(value, min, max, mapConfig.OutputPosMapY.min, mapConfig.OutputPosMapY.max);
