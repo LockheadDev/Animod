@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 181b6b3d8d036e8488de9644f335eda1, type: 3}
-  m_Name: OutputLegRightRotationX
+  m_Name: OutputFootRightRotationX
   m_EditorClassIdentifier: 
   positionEffects: []
   rotationEffects:
@@ -18,8 +18,8 @@ MonoBehaviour:
     Direction: 1
   scaleEffects: []
   accelerationEffects: []
-  colorEffects:
-  - control: 0
-    color: 3
+  colorEffects: []
   pitchEffects: []
   volumeEffects: []
+  panEffects: []
+  lpfEffects: []

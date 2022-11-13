@@ -37,11 +37,11 @@ MonoBehaviour:
     min: -10
     max: 10
   OutputRotMapX:
-    min: -360
-    max: 360
+    min: -180
+    max: 180
   OutputRotMapY:
-    min: -360
-    max: 360
+    min: -180
+    max: 180
   OutputRotMapZ:
     min: -360
     max: 360

@@ -51,7 +51,5 @@ MonoBehaviour:
       m_NumAlphaKeys: 2
   pitchEffects: []
   volumeEffects: []
-  panEffects:
-  - control: 0
-    channel: 1
+  panEffects: []
   lpfEffects: []

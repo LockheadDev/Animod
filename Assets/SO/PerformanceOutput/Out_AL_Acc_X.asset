@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 181b6b3d8d036e8488de9644f335eda1, type: 3}
   m_Name: Out_AL_Acc_X
   m_EditorClassIdentifier: 
-  positionEffects: []
+  positionEffects:
+  - control: 0
+    Direction: 4
   rotationEffects: []
   scaleEffects: []
   accelerationEffects: []

@@ -12,9 +12,10 @@ public class AnalogSceneSequencer : MonoBehaviour
     [System.Serializable]
     public class AnimationSlot
     {
-
+        
         public string name;
         public bool enable;
+        public bool invertinput;
         public GameObject go;
         [Space]
 
@@ -88,14 +89,9 @@ public class AnalogSceneSequencer : MonoBehaviour
     {
         if (!udpanalogcomm) udpanalogcomm = GameObject.Find("UDPClient").GetComponent<UDPAnalogComm>();
     }
-
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         UpdateAnimation();
-    }
-    void Update()
-    {
-        //UpdateAnimation();
     }
     private void UpdateAnimation()
     {
@@ -121,6 +117,9 @@ public class AnalogSceneSequencer : MonoBehaviour
             Debug.LogError("!! - SLOT: " + slot.name + " needs to be fully configured!");
             return;
         }
+
+        if(slot.invertinput)value=value*-1;
+
         //CHECK AND UPDATE ALL CONFIGURED ANIMATIONS
         foreach (RotationEffect posEffect in slot.outputData.rotationEffects)
         {
@@ -129,6 +128,7 @@ public class AnalogSceneSequencer : MonoBehaviour
 
         foreach (PositionEffect effect in slot.outputData.positionEffects)
         {
+            
             SetPosition(slot, value, effect.Direction);
         }
 
@@ -245,36 +245,43 @@ public class AnalogSceneSequencer : MonoBehaviour
 
     private void SetPosition(AnimationSlot slot, float value, DirectionEnum direction)
     {
-        print("setting position");
         
-        float temp_value = 0f;
-        float min=0f, max = 0f;
         Vector3 temp_vec3 = slot.go.transform.position;
-
-        min = getMinMax(slot.inputData.variable).Item1;
-        max = getMinMax(slot.inputData.variable).Item2;
        
+        float min = getMinMax(slot.inputData.variable).Item1;
+        float max = getMinMax(slot.inputData.variable).Item2;
+        
+        //DEBUG PRINT
+        //print(slot.name + " min: " + min.ToString() + "max: " + max.ToString());
+
+
         switch (direction)
         {
-            case DirectionEnum.none: return ;
+            case DirectionEnum.none: return;
             case DirectionEnum.x:
-                temp_value = Extension.Remap(value,min,max, mapConfig.OutputPosMapX.min, mapConfig.OutputPosMapX.max);
-                temp_vec3.x = temp_value; //INVERTED WATCH OUT
+                temp_vec3.x = Extension.Remap(value, min, max, mapConfig.OutputPosMapX.min, mapConfig.OutputPosMapX.max);
                 break;
             case DirectionEnum.y:
-                temp_value = Extension.Remap(value, min, max, mapConfig.OutputPosMapY.min, mapConfig.OutputPosMapY.max);
-                temp_vec3.y = temp_value;
+                temp_vec3.y = Extension.Remap(value, min, max, mapConfig.OutputPosMapY.min, mapConfig.OutputPosMapY.max);
                 break;
             case DirectionEnum.z:
-                temp_value = Extension.Remap(value, min, max, mapConfig.OutputPosMapZ.min, mapConfig.OutputPosMapZ.max);
-                temp_vec3.z = temp_value;
+                temp_vec3.z = Extension.Remap(value, min, max, mapConfig.OutputPosMapZ.min, mapConfig.OutputPosMapZ.max);
+                break;
+            case DirectionEnum.minus_x:
+                temp_vec3.x = -Extension.Remap(value, min, max, mapConfig.OutputPosMapX.min, mapConfig.OutputPosMapX.max);
+                break;
+            case DirectionEnum.minus_y:
+                temp_vec3.y = -Extension.Remap(value, min, max, mapConfig.OutputPosMapY.min, mapConfig.OutputPosMapY.max);
+                break;
+            case DirectionEnum.minus_z:
+                temp_vec3.z = -Extension.Remap(value, min, max, mapConfig.OutputPosMapZ.min, mapConfig.OutputPosMapZ.max);
                 break;
         }
         if (enLerpPos) slot.go.transform.position = Vector3.Lerp(slot.go.transform.position, temp_vec3, Time.deltaTime * 10f);
         else slot.go.transform.position = temp_vec3;
         //print("num " + value + "->" + temp_value);
     }
-
+    
     private void SetRotation(AnimationSlot slot, float value,DirectionEnum direction)
     {
         float min = getMinMax(slot.inputData.variable).Item1;
@@ -284,21 +291,26 @@ public class AnalogSceneSequencer : MonoBehaviour
         float tiltY = slot.go.transform.rotation.y;
         float tiltZ = slot.go.transform.rotation.z;
         Quaternion targetRotation;
-        //TODO Debug and set mapping like in SetPosition() method...
         switch (direction)
         {
             case DirectionEnum.none: return;
             case DirectionEnum.x:
-                temp_val = Extension.Remap(value, min, max, mapConfig.OutputRotMapX.min, mapConfig.OutputRotMapX.max);
-                tiltX = temp_val;
+                tiltX = Extension.Remap(value, min, max, mapConfig.OutputRotMapX.min, mapConfig.OutputRotMapX.max);
                 break;
             case DirectionEnum.y:
-                temp_val = Extension.Remap(value, min, max, mapConfig.OutputRotMapY.min, mapConfig.OutputRotMapY.max);
-                tiltY = temp_val;
+                tiltY = Extension.Remap(value, min, max, mapConfig.OutputRotMapY.min, mapConfig.OutputRotMapY.max);
                 break;
             case DirectionEnum.z:
-                temp_val = Extension.Remap(value, min, max, mapConfig.OutputRotMapZ.min, mapConfig.OutputRotMapZ.max);
-                tiltZ = temp_val;
+                tiltZ = Extension.Remap(value, min, max, mapConfig.OutputRotMapZ.min, mapConfig.OutputRotMapZ.max);
+                break;
+            case DirectionEnum.minus_x:
+                tiltX = -Extension.Remap(value, min, max, mapConfig.OutputRotMapX.min, mapConfig.OutputRotMapX.max);
+                break;
+            case DirectionEnum.minus_y:
+                tiltY = -Extension.Remap(value, min, max, mapConfig.OutputRotMapY.min, mapConfig.OutputRotMapY.max);
+                break;
+            case DirectionEnum.minus_z:
+                tiltZ = -Extension.Remap(value, min, max, mapConfig.OutputRotMapZ.min, mapConfig.OutputRotMapZ.max);
                 break;
         }
         targetRotation = Quaternion.Euler(tiltX, tiltY, tiltZ);
