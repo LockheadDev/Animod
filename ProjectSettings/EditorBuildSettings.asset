@@ -11,7 +11,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/05_Scenes/DemoScene.unity
     guid: ba758d294cf9387439be2ca058bd945d
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/05_Scenes/FireAndWaterScene.unity
-    guid: b651bde859eb087439b4c92f524b6230
+    path: Assets/05_Scenes/FireAndWaterScene_BIG.unity
+    guid: 08b4a45e6c172f347940951b0b98bf3e
+  - enabled: 1
+    path: Assets/05_Scenes/FireAndWaterScene_SMALL_XT.unity
+    guid: d84014413fe372949b7c2f44d6935776
   m_configObjects: {}

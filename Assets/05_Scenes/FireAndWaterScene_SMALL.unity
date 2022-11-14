@@ -10563,81 +10563,97 @@ MonoBehaviour:
   animationSlots:
   - name: Arm Right Rotation X
     enable: 1
+    invertinput: 0
     go: {fileID: 239265434}
     inputData: {fileID: 11400000, guid: e29f6d2cc1862ca46a50085466901ddb, type: 2}
     outputData: {fileID: 11400000, guid: b2946dca85d164642893916da57fbb93, type: 2}
   - name: Arm Right Rotation Y
     enable: 1
+    invertinput: 0
     go: {fileID: 239265434}
     inputData: {fileID: 11400000, guid: ecee592ec632c274bbd92e281b3a76d6, type: 2}
     outputData: {fileID: 11400000, guid: 80cd21004806e7e4daefe2a98e6c5213, type: 2}
   - name: Arm Right Acceleration X
     enable: 1
+    invertinput: 0
     go: {fileID: 239265434}
     inputData: {fileID: 11400000, guid: 21e159df14ba1cf4e98281f9b779c31a, type: 2}
     outputData: {fileID: 11400000, guid: 22b401f2dcdef334d86390b1f867c212, type: 2}
   - name: Arm Right Acceleration Y
     enable: 1
+    invertinput: 0
     go: {fileID: 239265434}
     inputData: {fileID: 11400000, guid: 6100b7f75960d924fbd58f6f8107a680, type: 2}
     outputData: {fileID: 11400000, guid: 67b2b912c187b7c45b88155d6b1ebf3c, type: 2}
   - name: Arm Right Acceleration Z
     enable: 1
+    invertinput: 0
     go: {fileID: 239265434}
     inputData: {fileID: 11400000, guid: a44f295d43a2be040bccb6f1191d6bfe, type: 2}
     outputData: {fileID: 11400000, guid: ac2a1a06822eed649988c935445a4b3b, type: 2}
   - name: Arm Left Rotation X
     enable: 1
+    invertinput: 0
     go: {fileID: 1197823609}
     inputData: {fileID: 11400000, guid: 736a79bcf7754c842ace7945aeee0657, type: 2}
     outputData: {fileID: 11400000, guid: 29e19728970a8cc478960801b9e1dd39, type: 2}
   - name: Arm Left Rotation Y
     enable: 1
+    invertinput: 0
     go: {fileID: 1197823609}
     inputData: {fileID: 11400000, guid: 38c16fa3346c2f047b1053cde72b9cb6, type: 2}
     outputData: {fileID: 11400000, guid: 251cdaf4c5bc43d43bd91273b5f3c51c, type: 2}
   - name: Arm Left Acceleration X
     enable: 1
+    invertinput: 0
     go: {fileID: 1197823609}
     inputData: {fileID: 11400000, guid: 02f7ad5565d99704da012186aaa3c08f, type: 2}
     outputData: {fileID: 11400000, guid: da60cb89171ce3647aa86a5f0c2dab98, type: 2}
   - name: Arm Left Acceleration Y
     enable: 1
+    invertinput: 0
     go: {fileID: 1197823609}
     inputData: {fileID: 11400000, guid: 02f7ad5565d99704da012186aaa3c08f, type: 2}
     outputData: {fileID: 11400000, guid: 031560031dc2cd44fbcca0e50d01ca75, type: 2}
   - name: Arm Left Acceleration Z
     enable: 1
+    invertinput: 0
     go: {fileID: 1197823609}
     inputData: {fileID: 11400000, guid: cb4bce2dc8d38a7488e00ffdf18a6127, type: 2}
     outputData: {fileID: 11400000, guid: ca0997e30c004ce43b74f19409b5eedf, type: 2}
   - name: Leg Left Rotation X
     enable: 1
+    invertinput: 0
     go: {fileID: 1197823609}
     inputData: {fileID: 11400000, guid: 25822070436395e4c8389dc501d4d6da, type: 2}
     outputData: {fileID: 11400000, guid: e8bce5cbc57a7894db241dd552c5faf6, type: 2}
   - name: Leg Left Rotation Y
     enable: 1
+    invertinput: 0
     go: {fileID: 1197823609}
     inputData: {fileID: 11400000, guid: c5c5164479baa534d954c5f378b1ed9f, type: 2}
     outputData: {fileID: 11400000, guid: c68c884364083374787cbff4c5d4f2b9, type: 2}
   - name: Leg Right Rotation X
     enable: 1
+    invertinput: 0
     go: {fileID: 1197823609}
     inputData: {fileID: 11400000, guid: 321f72ce2c1ba5f44a22f346b0add4be, type: 2}
     outputData: {fileID: 11400000, guid: 6939ba164956abd4380524474c93513f, type: 2}
   - name: Leg Right Rotation Y
     enable: 1
+    invertinput: 0
     go: {fileID: 1197823609}
     inputData: {fileID: 11400000, guid: bb9feea6f5ffb134b892d8d9e91e402e, type: 2}
     outputData: {fileID: 11400000, guid: ba66f9e8fad25154ea31dd4cddea36ab, type: 2}
   - name: Center Rotation X
     enable: 1
+    invertinput: 0
     go: {fileID: 456428433}
     inputData: {fileID: 11400000, guid: 039fea4cd6a03d94a8632482dbb0e112, type: 2}
     outputData: {fileID: 11400000, guid: 1bc870d4d52ef854a8b312dee425a625, type: 2}
   - name: Center Rotation Y
     enable: 1
+    invertinput: 0
     go: {fileID: 456428433}
     inputData: {fileID: 11400000, guid: 9728cbe7fc9b97f4191bb1aa188a7d8a, type: 2}
     outputData: {fileID: 11400000, guid: 8717b486d81ac4446952126f6388fb8a, type: 2}
@@ -31889,7 +31905,7 @@ MonoBehaviour:
   audioLPF: {fileID: 1465939607}
   sounds:
   - name: Music
-    clip: {fileID: 8300000, guid: 85c22685c7f2f244dac698f28609dd10, type: 3}
+    clip: {fileID: 8300000, guid: e3d48bbce6d8ac842ae6d79a091c35c3, type: 3}
     loop: 1
     playOnAwake: 1
     volume: 1

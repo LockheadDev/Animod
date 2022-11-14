@@ -13,13 +13,11 @@ MonoBehaviour:
   m_Name: Out_FR_Rot_X
   m_EditorClassIdentifier: 
   positionEffects: []
-  rotationEffects:
-  - control: 0
-    Direction: 1
+  rotationEffects: []
   scaleEffects: []
   accelerationEffects: []
-  colorEffects:
-  - control: 0
-    color: 3
+  colorEffects: []
   pitchEffects: []
   volumeEffects: []
+  panEffects: []
+  lpfEffects: []

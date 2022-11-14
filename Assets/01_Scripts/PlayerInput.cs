@@ -18,6 +18,7 @@ public class PlayerInput : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape)) toggleMenu();
         if (Input.GetKeyDown(KeyCode.Alpha1)) SceneChanger.Instance.LoadScene(1);
         if (Input.GetKeyDown(KeyCode.Alpha2)) SceneChanger.Instance.LoadScene(2);
+        if (Input.GetKeyDown(KeyCode.Alpha3)) SceneChanger.Instance.LoadScene(3);
 
     }
     

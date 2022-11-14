@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   positionEffects:
   - control: 0
-    Direction: 5
+    Direction: 2
   rotationEffects: []
   scaleEffects: []
   accelerationEffects: []

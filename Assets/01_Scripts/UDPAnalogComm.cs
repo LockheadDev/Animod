@@ -145,15 +145,18 @@ public class UDPAnalogComm : MonoBehaviour
     private void sendRequestData(UdpClient client, string str)
     {
         byte[] message = Encoding.ASCII.GetBytes(str);
+        print("Request: " + DateTime.Now.ToString("HH:mm:ss.ffffff"));
         client.Send(message, str.Length);
     }
 
     private void SendRecieveData(BodyPartEnum bodyPart, DataReqEnum dataReq)
     {
         if (endConnection) return;
+        
         sendRequestData(UDPclient, GetRequestString(bodyPart,dataReq));
         try
         {
+            print("Recieve: " + DateTime.Now.ToString("HH:mm:ss.ffffff"));
             recievedString = Encoding.ASCII.GetString(UDPclient.Receive(ref ep));
         }
         catch(Exception ex)

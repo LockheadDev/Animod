@@ -29,7 +29,10 @@ public class SceneChanger : MonoBehaviour
                 SceneManager.LoadScene("DemoScene", LoadSceneMode.Single);
                 break;
             case 2:
-                SceneManager.LoadScene("FireAndWaterScene",LoadSceneMode.Single);
+                SceneManager.LoadScene("FireAndWaterScene_SMALL_XT",LoadSceneMode.Single);
+                break;
+            case 3:
+                SceneManager.LoadScene("FireAndWaterScene_BIG", LoadSceneMode.Single);
                 break;
             default:
                 Debug.Log("Scene not found: " + num.ToString());

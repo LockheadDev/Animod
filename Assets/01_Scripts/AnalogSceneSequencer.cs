@@ -92,6 +92,7 @@ public class AnalogSceneSequencer : MonoBehaviour
     void FixedUpdate()
     {
         UpdateAnimation();
+         
     }
     private void UpdateAnimation()
     {
