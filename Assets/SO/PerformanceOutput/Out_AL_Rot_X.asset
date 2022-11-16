@@ -16,13 +16,7 @@ MonoBehaviour:
   rotationEffects:
   - control: 0
     Direction: 1
-  scaleEffects:
-  - control: 0
-    Direction: 1
-  - control: 0
-    Direction: 2
-  - control: 0
-    Direction: 3
+  scaleEffects: []
   accelerationEffects: []
   colorEffects: []
   pitchEffects: []

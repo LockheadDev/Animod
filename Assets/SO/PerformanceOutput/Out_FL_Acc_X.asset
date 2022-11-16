@@ -9,8 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f32d923af8ffae744b3b07f2c7d9e4c3, type: 3}
-  m_Name: LegLeft_RotationY
+  m_Script: {fileID: 11500000, guid: 181b6b3d8d036e8488de9644f335eda1, type: 3}
+  m_Name: Out_FL_Acc_X
   m_EditorClassIdentifier: 
-  bodyPart: 4
-  variable: 1
+  positionEffects: []
+  rotationEffects: []
+  scaleEffects: []
+  accelerationEffects: []
+  colorEffects: []
+  pitchEffects: []
+  volumeEffects: []
+  panEffects: []
+  lpfEffects: []

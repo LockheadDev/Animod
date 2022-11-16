@@ -10471,84 +10471,96 @@ MonoBehaviour:
     go: {fileID: 239265434}
     inputData: {fileID: 11400000, guid: e29f6d2cc1862ca46a50085466901ddb, type: 2}
     outputData: {fileID: 11400000, guid: b2946dca85d164642893916da57fbb93, type: 2}
-  - name: Arm Right Rotation Y
-    enable: 1
-    invertinput: 0
-    go: {fileID: 239265434}
-    inputData: {fileID: 11400000, guid: ecee592ec632c274bbd92e281b3a76d6, type: 2}
-    outputData: {fileID: 11400000, guid: 80cd21004806e7e4daefe2a98e6c5213, type: 2}
   - name: Arm Right Acceleration X
     enable: 1
     invertinput: 0
     go: {fileID: 239265434}
     inputData: {fileID: 11400000, guid: 21e159df14ba1cf4e98281f9b779c31a, type: 2}
     outputData: {fileID: 11400000, guid: 22b401f2dcdef334d86390b1f867c212, type: 2}
+  - name: Arm Right Rotation Y
+    enable: 1
+    invertinput: 0
+    go: {fileID: 239265434}
+    inputData: {fileID: 11400000, guid: ecee592ec632c274bbd92e281b3a76d6, type: 2}
+    outputData: {fileID: 11400000, guid: 80cd21004806e7e4daefe2a98e6c5213, type: 2}
   - name: Arm Right Acceleration Y
     enable: 1
     invertinput: 0
     go: {fileID: 239265434}
     inputData: {fileID: 11400000, guid: 6100b7f75960d924fbd58f6f8107a680, type: 2}
     outputData: {fileID: 11400000, guid: 67b2b912c187b7c45b88155d6b1ebf3c, type: 2}
-  - name: Arm Right Acceleration Z
-    enable: 1
-    invertinput: 0
-    go: {fileID: 239265434}
-    inputData: {fileID: 11400000, guid: a44f295d43a2be040bccb6f1191d6bfe, type: 2}
-    outputData: {fileID: 11400000, guid: bd79e62c7d36cac4bae6439b2487e445, type: 2}
   - name: Arm Left Rotation X
     enable: 1
     invertinput: 0
     go: {fileID: 1197823609}
     inputData: {fileID: 11400000, guid: 736a79bcf7754c842ace7945aeee0657, type: 2}
     outputData: {fileID: 11400000, guid: 8fac62c544b9a784eb9ba5b7bdc2f74f, type: 2}
-  - name: Arm Left Rotation Y
-    enable: 1
-    invertinput: 0
-    go: {fileID: 1197823609}
-    inputData: {fileID: 11400000, guid: 38c16fa3346c2f047b1053cde72b9cb6, type: 2}
-    outputData: {fileID: 11400000, guid: ea46595f3d93c2147ac07ae843a11157, type: 2}
   - name: Arm Left Acceleration X
     enable: 1
     invertinput: 0
     go: {fileID: 1197823609}
     inputData: {fileID: 11400000, guid: 02f7ad5565d99704da012186aaa3c08f, type: 2}
     outputData: {fileID: 11400000, guid: 21f2b741ed1ed4d4aa9c61aad9831719, type: 2}
+  - name: Arm Left Rotation Y
+    enable: 1
+    invertinput: 0
+    go: {fileID: 1197823609}
+    inputData: {fileID: 11400000, guid: 38c16fa3346c2f047b1053cde72b9cb6, type: 2}
+    outputData: {fileID: 11400000, guid: ea46595f3d93c2147ac07ae843a11157, type: 2}
   - name: Arm Left Acceleration Y
     enable: 1
     invertinput: 0
     go: {fileID: 1197823609}
     inputData: {fileID: 11400000, guid: 02f7ad5565d99704da012186aaa3c08f, type: 2}
     outputData: {fileID: 11400000, guid: 32c685839fbf15246b9ee745a26f3a51, type: 2}
-  - name: Arm Left Acceleration Z
-    enable: 1
-    invertinput: 0
-    go: {fileID: 1197823609}
-    inputData: {fileID: 11400000, guid: cb4bce2dc8d38a7488e00ffdf18a6127, type: 2}
-    outputData: {fileID: 11400000, guid: 5628439a07ba42345858bc06dc193b4c, type: 2}
   - name: Foot Left Rotation X
     enable: 1
     invertinput: 0
     go: {fileID: 1197823609}
     inputData: {fileID: 11400000, guid: 25822070436395e4c8389dc501d4d6da, type: 2}
     outputData: {fileID: 11400000, guid: 9ee894d533520f6418dd0b00c26947f9, type: 2}
+  - name: Foot Left Acceleration X
+    enable: 1
+    invertinput: 0
+    go: {fileID: 1197823609}
+    inputData: {fileID: 11400000, guid: f28082f2e4313274dad89d2d0abcc8c6, type: 2}
+    outputData: {fileID: 11400000, guid: 127399f4ea86cf74d96ef92b1e50d366, type: 2}
   - name: Foot Left Rotation Y
     enable: 1
     invertinput: 0
     go: {fileID: 1197823609}
     inputData: {fileID: 11400000, guid: c5c5164479baa534d954c5f378b1ed9f, type: 2}
     outputData: {fileID: 11400000, guid: 7ee2834c26483c141af87521fd3aec8f, type: 2}
+  - name: Foot Left Acceleration Y
+    enable: 1
+    invertinput: 0
+    go: {fileID: 1197823609}
+    inputData: {fileID: 11400000, guid: 3a084da71b9386a428b520bafe340fe4, type: 2}
+    outputData: {fileID: 11400000, guid: 248f565f02185bf45bb1b00c808127b3, type: 2}
   - name: Foot Right Rotation X
     enable: 1
     invertinput: 0
     go: {fileID: 239265434}
     inputData: {fileID: 11400000, guid: 321f72ce2c1ba5f44a22f346b0add4be, type: 2}
     outputData: {fileID: 11400000, guid: 7041dd7e42f4a3047b45c7a18b544986, type: 2}
+  - name: Foot Right Acceleration X
+    enable: 1
+    invertinput: 0
+    go: {fileID: 239265434}
+    inputData: {fileID: 11400000, guid: e54cc38c74937634da0a29265298d36a, type: 2}
+    outputData: {fileID: 11400000, guid: 6e5087fd2405ea741ac597abe4f19c9b, type: 2}
   - name: Foot Right Rotation Y
     enable: 1
     invertinput: 0
     go: {fileID: 239265434}
     inputData: {fileID: 11400000, guid: bb9feea6f5ffb134b892d8d9e91e402e, type: 2}
     outputData: {fileID: 11400000, guid: 72bd2c9c544b2c54789b49dce64f0fc1, type: 2}
+  - name: Foot Right Acceleration Y
+    enable: 1
+    invertinput: 0
+    go: {fileID: 239265434}
+    inputData: {fileID: 11400000, guid: c8544e1926b9002419519743b58c324a, type: 2}
+    outputData: {fileID: 11400000, guid: 3cee20cd7273bc5459dfab55d53b96b7, type: 2}
   - name: Center Rotation X
     enable: 1
     invertinput: 0
